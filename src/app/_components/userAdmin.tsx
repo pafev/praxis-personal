@@ -5,7 +5,7 @@ export async function LinkDashboard() {
     <div>
       <Link
         href="/admin"
-        className="duration-2 block border-vermelho-praxis px-2 font-noto text-xl font-medium text-vermelho-praxis transition hover:border-b-2 hover:text-vermelho-gentileza"
+        className="duration-2 block px-2 font-noto font-medium text-vermelho-praxis transition hover:text-vermelho-gentileza"
       >
         Dashboard
       </Link>

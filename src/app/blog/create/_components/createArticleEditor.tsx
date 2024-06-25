@@ -4,7 +4,6 @@ import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import { locales, type PartialBlock } from "@blocknote/core";
-
 import "./createArticleEditor.css";
 import { api } from "~/trpc/react";
 import { useSession } from "next-auth/react";
@@ -12,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { CldImage } from "~/components/cldImage";
 import Image from "next/image";
+import { uploadFiles } from "~/utils/uploadthing";
 
 export default function CreateArticleEditor() {
   const initialContent: PartialBlock[] = [
@@ -36,6 +36,13 @@ export default function CreateArticleEditor() {
     trailingBlock: false,
     initialContent,
     dictionary: locales.pt,
+    uploadFile: async (file: File) => {
+      const [res] = await uploadFiles("imageUploader", { files: [file] });
+      if (res) {
+        return res.url;
+      }
+      return "";
+    },
   });
   function handleChangeContent() {
     setFormData({
@@ -62,7 +69,7 @@ export default function CreateArticleEditor() {
     <form onSubmit={handleSubmit}>
       <div className="w-full pb-16 shadow-md">
         <CldImage
-          src="blog-default-banner_f8uh1x"
+          src="coffee"
           width={1800}
           height={320}
           crop={"fill"}
@@ -87,7 +94,7 @@ export default function CreateArticleEditor() {
           name="description"
           placeholder="Descrição do artigo"
           onChange={handleChange}
-          className="mx-8 border-none outline-none lg:mx-36"
+          className="mx-8 w-[88%] border-none outline-none lg:mx-36"
         />
       </div>
       <BlockNoteView

@@ -3,7 +3,7 @@ import Image from "next/image";
 import HamburgerMenu from "./hamburguerMenu";
 import { LinkDashboard } from "./userAdmin";
 import { getServerAuthSession } from "~/server/auth";
-import UserMenu from "./userMenu";
+import { NavButton } from "./navButton";
 import { unstable_noStore as noStore } from "next/cache";
 
 const Navbar = async () => {
@@ -44,12 +44,12 @@ const Navbar = async () => {
       </div>
       <div className="hidden lg:block">
         <div className="ml-10 flex items-center space-x-4">
-          {session && <LinkDashboard />}
-          {session && <UserMenu session={session} />}
+          {!!session && <LinkDashboard />}
+          <NavButton session={session} />
         </div>
       </div>
       <HamburgerMenu session={session}>
-        {session && <LinkDashboard />}
+        {!!session && <LinkDashboard />}
       </HamburgerMenu>
     </nav>
   );

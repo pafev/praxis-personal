@@ -10,7 +10,7 @@ export function ArticleCard({ article }: { article: ArticleGetAllPerPage }) {
     >
       <div className="flex h-[260px] w-full">
         <CldImage
-          src={"blog-default-banner_f8uh1x"}
+          src="coffee"
           alt="banner-artigo"
           height={260}
           width={380}

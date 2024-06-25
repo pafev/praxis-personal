@@ -19,7 +19,7 @@ export function SearchBar({
   });
 
   return (
-    <div className="mx-8 -mt-7 flex w-[80%] max-w-xl flex-col self-center lg:mx-36">
+    <div className="mx-8 -mt-7 mb-12 flex w-[80%] max-w-xl flex-col self-center lg:mx-36">
       <input
         placeholder={"Pesquise pelo artigo"}
         defaultValue={filterParams.search}

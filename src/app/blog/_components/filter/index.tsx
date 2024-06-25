@@ -25,7 +25,7 @@ export function Filters({
   const router = useRouter();
 
   return (
-    <div className="mx-8 my-12 flex flex-col gap-4 lg:mx-36 lg:flex-row lg:justify-between">
+    <div className="mx-8 mb-12 flex flex-col gap-4 lg:mx-36 lg:flex-row lg:justify-between">
       <div className="lg: flex flex-col justify-start gap-4 md:flex-row">
         <Select
           onValueChange={(value) => {
