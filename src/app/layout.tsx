@@ -1,5 +1,6 @@
 import "~/styles/globals.css";
 import { Footer } from "./_components/footer";
+import Navbar from "./_components/navbar";
 
 import { Noto_Sans } from "next/font/google";
 
@@ -26,6 +27,7 @@ export default function RootLayout({
       className={cn(font.className, "w-screen overflow-x-hidden antialiased")}
     >
       <body>
+        <Navbar />
         <TRPCReactProvider>
           <AuthProvider>{children}</AuthProvider>
         </TRPCReactProvider>
