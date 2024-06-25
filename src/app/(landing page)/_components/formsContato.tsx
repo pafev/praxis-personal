@@ -62,10 +62,10 @@ export function FormsContato() {
 
   return (
     <div
-      className="flex w-screen flex-col bg-gradient-to-r from-vermelho-praxis-translucido to-vermelho-praxis pb-32 pt-16 md:flex-row"
+      className="flex w-screen bg-gradient-to-r from-vermelho-praxis-translucido to-vermelho-praxis pb-32 pt-16"
       id="contato"
     >
-      <div className="ml-8 w-4/6 text-white md:w-[403px] lg:ml-36">
+      <div className="mx-8 w-full text-white md:mr-0 md:w-[403px] lg:ml-36">
         <Form {...form}>
           <form onSubmit={handleSubmit}>
             <div className="space-y-8">
@@ -187,7 +187,7 @@ export function FormsContato() {
         alt="logo praxis"
         width={500}
         height={250}
-        className="ml-auto mr-40 self-center md:mr-auto"
+        className="ml-auto mr-40 hidden self-center md:mr-auto md:flex"
       />
     </div>
   );

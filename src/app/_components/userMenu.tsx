@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { Session } from "next-auth";
+import { type Session } from "next-auth";
 import { LogOut } from "lucide-react";
 
 interface UserMenuProps {
@@ -22,10 +22,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ session }) => {
     <div className="relative">
       <button onClick={toggleUserMenu} className="focus:outline-none">
         <Image
-          src={session.user.image || "User image"}
+          src={session.user.image ?? "User image"}
           width={50}
           height={50}
-          alt={session.user.name || "User avatar"}
+          alt={session.user.name ?? "User avatar"}
           className="cursor-pointer rounded-full"
         />
       </button>
@@ -45,4 +45,3 @@ const UserMenu: React.FC<UserMenuProps> = ({ session }) => {
 };
 
 export default UserMenu;
-

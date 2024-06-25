@@ -41,20 +41,6 @@ const articleRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const createdAtOrder = input.date === "Menos Recentes" ? "desc" : "asc";
 
-      // const articles = await ctx.db.article.findMany({
-      //   where: {
-      //     themes:
-      //       input.theme === "Ver Tudo"
-      //         ? undefined
-      //         : { some: { name: input.theme } },
-      //     title: { contains: input.search },
-      //   },
-      //   orderBy: { createdAt: createdAtOrder },
-      //   include: { createdBy: true, themes: true },
-      //   skip: 3 * (input.page - 1),
-      //   take: 3,
-      // });
-
       const articles = await ctx.db.article.findMany({
         where: {
           themes:
@@ -65,9 +51,6 @@ const articleRouter = createTRPCRouter({
         },
         orderBy: {
           createdAt: createdAtOrder,
-          _relevance: input.search
-            ? { fields: ["title"], search: input.search, sort: "asc" }
-            : undefined,
         },
         include: { createdBy: true, themes: true },
         skip: 3 * (input.page - 1),

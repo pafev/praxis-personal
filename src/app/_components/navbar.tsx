@@ -4,59 +4,55 @@ import HamburgerMenu from "./hamburguerMenu";
 import { LinkDashboard } from "./userAdmin";
 import { getServerAuthSession } from "~/server/auth";
 import UserMenu from "./userMenu";
+import { unstable_noStore as noStore } from "next/cache";
 
 const Navbar = async () => {
+  noStore();
   const session = await getServerAuthSession();
 
   return (
-    <nav className="bg-white">
-      <div className="mx-4 flex h-24 items-center justify-between md:mx-6 lg:mx-8">
-        <div className="flex items-center">
-          <Link href="/" className="flex-shrink-0">
-            <Image
-              src="/Praxis - Logo - Simples - Colorida 1.png"
-              width={168}
-              height={72}
-              alt="Logo praxis"
-            />
+    <nav className="fixed z-20 flex h-20 w-screen items-center justify-between bg-white/95 px-8 shadow-md backdrop-blur-sm lg:px-36">
+      <div className="flex items-center">
+        <Link href="/" className="flex-shrink-0">
+          <Image
+            src="/Praxis - Logo - Simples - Colorida 1.png"
+            width={120}
+            height={100}
+            alt="Logo praxis"
+          />
+        </Link>
+        <div className="ml-10 hidden items-center gap-4 space-x-3 font-noto font-medium transition-all duration-200 ease-in-out hover:text-black/70 lg:flex">
+          <Link href="/" className="border-vermelho-praxis">
+            Quem Somos
           </Link>
-          <div className="ml-10 hidden items-center gap-4 space-x-3 font-noto text-xl font-medium lg:flex">
-            <Link href="/" className="border-vermelho-praxis hover:border-b-2">
-              Quem Somos
-            </Link>
-            <Link href="/" className="border-vermelho-praxis hover:border-b-2">
-              Portfolio
-            </Link>
-            <Link href="/" className="border-vermelho-praxis hover:border-b-2">
-              Equipe
-            </Link>
-            <Link href="/" className="border-vermelho-praxis hover:border-b-2">
-              Parceiros
-            </Link>
-            <Link href="/" className="border-vermelho-praxis hover:border-b-2">
-              Contato
-            </Link>
-            <Link
-              href="/blog"
-              className="border-vermelho-praxis hover:border-b-2"
-            >
-              Blog
-            </Link>
-          </div>
+          <Link href="/" className="border-vermelho-praxis">
+            Portfolio
+          </Link>
+          <Link href="/" className="border-vermelho-praxis">
+            Equipe
+          </Link>
+          <Link href="/" className="border-vermelho-praxis">
+            Parceiros
+          </Link>
+          <Link href="/" className="border-vermelho-praxis">
+            Contato
+          </Link>
+          <Link href="/blog" className="border-vermelho-praxis">
+            Blog
+          </Link>
         </div>
-        <div className="hidden lg:block">
-          <div className="ml-10 flex items-center space-x-4">
-            {session && <LinkDashboard />}
-            {session && <UserMenu session={session} />}
-          </div>
-        </div>
-        <HamburgerMenu session={session}>
-          {session && <LinkDashboard />}
-        </HamburgerMenu>
       </div>
+      <div className="hidden lg:block">
+        <div className="ml-10 flex items-center space-x-4">
+          {session && <LinkDashboard />}
+          {session && <UserMenu session={session} />}
+        </div>
+      </div>
+      <HamburgerMenu session={session}>
+        {session && <LinkDashboard />}
+      </HamburgerMenu>
     </nav>
   );
 };
 
 export default Navbar;
-

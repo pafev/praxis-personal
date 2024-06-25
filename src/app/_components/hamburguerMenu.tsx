@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import React from "react";
 import { ButtonSignOut } from "./buttonSignOut";
-import { Session } from "next-auth"; // Adjust the import according to your auth library
+import { type Session } from "next-auth";
 import { Menu } from "lucide-react";
 
 interface HamburgerMenuProps {
@@ -97,4 +97,3 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ session, children }) => {
 };
 
 export default HamburgerMenu;
-

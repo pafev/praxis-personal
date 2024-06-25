@@ -9,7 +9,7 @@ import { Grafismo } from "../../components/grafismo";
 
 export function Footer() {
   return (
-    <footer className="relative flex justify-between border-t-[2px] border-t-white bg-gradient-to-r from-vermelho-praxis-translucido to-vermelho-praxis px-8 lg:px-36">
+    <footer className="relative flex w-screen justify-between border-t-[2px] border-t-white bg-gradient-to-r from-vermelho-praxis-translucido to-vermelho-praxis px-8 lg:px-36">
       {/* logo e grafismo */}
       <section className="flex">
         <div className="flex flex-col justify-center lg:justify-start xl:mt-3 xl:justify-start">
@@ -28,10 +28,10 @@ export function Footer() {
       {/* links e contatos */}
       <div className="flex flex-col justify-around pl-3 transition">
         {/* links */}
-        <ul className="hidden gap-6 text-nowrap sm:hidden md:hidden lg:flex lg:text-lg">
+        <ul className="hidden gap-6 text-nowrap sm:hidden md:hidden lg:flex">
           {links.map((link, index) => (
             <li
-              className="text-white duration-300 ease-linear hover:text-off-black"
+              className="text-white/90 duration-300 ease-linear hover:text-white"
               key={index}
             >
               <Link href={link.url}>{link.name}</Link>
@@ -44,7 +44,7 @@ export function Footer() {
           <div>
             <Link href="https://www.instagram.com/praxisconsultoriajr/">
               <Instagram
-                className="h-7 w-7 fill-off-white duration-300 ease-linear hover:fill-off-black hover:stroke-off-white sm:h-8 sm:w-8"
+                className="size-6 fill-off-white duration-300 ease-linear sm:size-7"
                 strokeWidth={1}
               />
             </Link>
@@ -53,7 +53,7 @@ export function Footer() {
           <div>
             <Link href="https://br.linkedin.com/company/praxis-consultoria-jr">
               <Linkedin
-                className="h-7 w-7 fill-off-white duration-300 ease-linear hover:fill-off-black hover:stroke-off-white sm:h-8 sm:w-8"
+                className="h-7 w-7 fill-off-white duration-300 ease-linear sm:h-8 sm:w-8"
                 strokeWidth={1}
               />
             </Link>
