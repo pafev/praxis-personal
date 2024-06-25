@@ -27,7 +27,7 @@ export default async function ArticlePage({
         <section>
           <div className="w-full pb-16 shadow-md">
             <CldImage
-              src="blog-default-banner_f8uh1x"
+              src="what-is-unsplash_axoalg"
               width={1800}
               height={320}
               crop={"fill"}

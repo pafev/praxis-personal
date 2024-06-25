@@ -69,7 +69,7 @@ export default function CreateArticleEditor() {
     <form onSubmit={handleSubmit}>
       <div className="w-full pb-16 shadow-md">
         <CldImage
-          src="coffee"
+          src="what-is-unsplash_axoalg"
           width={1800}
           height={320}
           crop={"fill"}

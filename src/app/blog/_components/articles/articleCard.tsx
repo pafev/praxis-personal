@@ -10,7 +10,7 @@ export function ArticleCard({ article }: { article: ArticleGetAllPerPage }) {
     >
       <div className="flex h-[260px] w-full">
         <CldImage
-          src="coffee"
+          src="what-is-unsplash_axoalg"
           alt="banner-artigo"
           height={260}
           width={380}
