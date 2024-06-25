@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Portfolio",
+    "url": "/#portfolio"
+  },
+  {
+    "name": "Equipe",
+    "url": "/#equipe"
+  },
+  {
+    "name": "Parceria",
+    "url": "/#parceria"
+  },
+  {
+    "name": "Blog",
+    "url": "/blog"
+  },
+  {
+    "name": "Contato",
+    "url": "/#contato"
+  }
+]

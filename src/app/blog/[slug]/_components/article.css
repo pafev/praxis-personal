@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+.bn-container[data-theming-css-demo] .bn-editor {
+  border-radius: 0;
+  margin: 3rem 6rem 0 6rem;
+}
+
+@media (max-width: 1024px) {
+  .bn-container[data-theming-css-demo] .bn-editor {
+    margin: 3rem 0 0 0;
+  }
+
+  .bn-block
+    .bn-block-content[data-content-type="heading"][data-level="1"]
+    .bn-inline-content {
+    font-size: 2.2rem;
+  }
+  .bn-block
+    .bn-block-content[data-content-type="heading"][data-level="2"]
+    .bn-inline-content {
+    font-size: 1.75rem;
+  }
+  .bn-block
+    .bn-block-content[data-content-type="heading"][data-level="3"]
+    .bn-inline-content {
+    font-size: 1.5rem;
+  }
+}
+
+.bn-container[data-theming-css-demo] .bn-editor * {
+  font-family: sans-serif;
+}

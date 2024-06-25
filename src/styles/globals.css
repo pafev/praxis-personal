@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 24 2% 95%;
+    --foreground: 0 13% 11%;
+
+    --card: 24 2% 95%;
+    --card-foreground: 0 13% 11%;
+
+    --popover: 24 2% 95%;
+    --popover-foreground: 0 13% 11%;
+
+    --primary: 353 80% 57%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 355, 51%, 75%;
+    --secondary-foreground: 0 0% 9%;
+
+    --muted: 350 85% 46%;
+    --muted-foreground: 0 13% 11%;
+
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 13% 11%;
+
+    --destructive: 353 80% 57%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 9%;
+    --input: 355 51% 75%;
+    --ring: 350 85% 46%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.cor-branca::placeholder {
+  color: white;
+}
