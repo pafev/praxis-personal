@@ -4,8 +4,9 @@ import { type Session } from "next-auth";
 
 export default async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const token = request.cookies.get("next-auth.session-token");
 
-  if (pathname.startsWith("/login")) {
+  if (pathname.startsWith("/login") && token) {
     const session = (await (
       await fetch(process.env.NEXTAUTH_URL + "/api/auth/session", {
         method: "GET",
@@ -25,18 +26,21 @@ export default async function middleware(request: NextRequest) {
     (pathname.startsWith("/blog") && pathname.endsWith("/edit")) ||
     pathname.startsWith("/blog/create")
   ) {
-    const session = (await (
-      await fetch(process.env.NEXTAUTH_URL + "/api/auth/session", {
-        method: "GET",
-        headers: {
-          ...Object.fromEntries(request.headers),
-        },
-      })
-    ).json()) as Session;
+    if (token) {
+      const session = (await (
+        await fetch(process.env.NEXTAUTH_URL + "/api/auth/session", {
+          method: "GET",
+          headers: {
+            ...Object.fromEntries(request.headers),
+          },
+        })
+      ).json()) as Session;
 
-    return session?.user?.id
-      ? NextResponse.next()
-      : NextResponse.redirect(getUrlByPath("/login"));
+      return session?.user?.id
+        ? NextResponse.next()
+        : NextResponse.redirect(getUrlByPath("/login"));
+    }
+    return NextResponse.redirect("/login");
   }
 
   return NextResponse.next();
