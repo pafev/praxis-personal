@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { CldImage } from "~/components/cldImage";
 import Image from "next/image";
-import { uploadFiles } from "~/utils/uploadthing";
+import { uploadUrl } from "~/lib/cloudinaryUpload";
 
 export default function CreateArticleEditor() {
   const initialContent: PartialBlock[] = [
@@ -37,11 +37,20 @@ export default function CreateArticleEditor() {
     initialContent,
     dictionary: locales.pt,
     uploadFile: async (file: File) => {
-      const [res] = await uploadFiles("imageUploader", { files: [file] });
-      if (res) {
-        return res.url;
-      }
-      return "";
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        try {
+          const { url } = await uploadUrl(reader.result as string);
+          return url;
+        } catch (error) {
+          throw error;
+        }
+      };
+      reader.readAsDataURL(file);
+      return new Promise<string>((resolve, reject) => {
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+      });
     },
   });
   function handleChangeContent() {
