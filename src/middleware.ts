@@ -40,7 +40,7 @@ export default async function middleware(request: NextRequest) {
         ? NextResponse.next()
         : NextResponse.redirect(getUrlByPath("/login"));
     }
-    return NextResponse.redirect("/login");
+    return NextResponse.redirect(getUrlByPath("/login"));
   }
 
   return NextResponse.next();
