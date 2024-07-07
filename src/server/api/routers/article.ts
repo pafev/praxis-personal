@@ -53,8 +53,6 @@ const articleRouter = createTRPCRouter({
           createdAt: createdAtOrder,
         },
         include: { createdBy: true, themes: true },
-        skip: 3 * (input.page - 1),
-        take: 3,
       });
 
       return articles;
