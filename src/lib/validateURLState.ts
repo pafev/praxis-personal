@@ -11,11 +11,6 @@ export function validSearch(search: string | string[] | undefined) {
   return typeof search != "string" ? "" : search;
 }
 
-export function validPage(page: string | string[] | undefined) {
-  if (typeof page != "string") return "1";
-  return (parseInt(page) || 1) < 1 ? "1" : page;
-}
-
 export function validTheme(
   themes: Theme[],
   theme: string | string[] | undefined,

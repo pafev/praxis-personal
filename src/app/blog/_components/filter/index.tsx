@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { type Data } from "~/lib/datasBlog";
+import { datas } from "~/lib/datasBlog";
 import { type BlogFilterParams } from "../../page";
 import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
@@ -16,11 +16,9 @@ import { Button } from "~/components/ui/button";
 export function Filters({
   filterParams,
   themes,
-  datas,
 }: {
   filterParams: BlogFilterParams;
   themes: Theme[];
-  datas: Data[];
 }) {
   const router = useRouter();
 
