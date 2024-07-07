@@ -3,14 +3,13 @@ import { api } from "~/trpc/server";
 import { HeaderBlog } from "./_components/headerBlog";
 import { SearchBar } from "./_components/searchbar";
 import { Filters } from "./_components/filter";
-import { ArticleCard } from "./_components/articles/articleCard";
+import { ArticleCard, ArticlesContainer } from "./_components/articles";
 import {
   validDate,
   validPage,
   validSearch,
   validTheme,
 } from "~/lib/validateURLState";
-import { ArticlesContainer } from "./_components/articles/articlesContainer";
 import { getServerAuthSession } from "~/server/auth";
 import { buttonVariants } from "~/components/ui/button";
 import Link from "next/link";
