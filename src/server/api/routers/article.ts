@@ -39,7 +39,7 @@ const articleRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const createdAtOrder = input.date === "Menos Recentes" ? "desc" : "asc";
+      const createdAtOrder = input.date === "Menos Recentes" ? "asc" : "desc";
 
       const articles = await ctx.db.article.findMany({
         where: {
