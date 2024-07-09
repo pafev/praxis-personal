@@ -31,9 +31,7 @@ export function ArticleCard({ article }: { article: ArticleGetAllPerPage }) {
       <p className="mt-4 line-clamp-2 min-h-10 px-4 text-sm font-light opacity-70 sm:min-h-12 sm:text-base">
         {article.description}
       </p>
-      <span className="mx-4 mt-2 self-start rounded font-bold hover:underline">
-        Leia Mais
-      </span>
+      <span className="mx-4 mt-2 self-start rounded font-bold">Leia Mais</span>
     </Link>
   );
 }

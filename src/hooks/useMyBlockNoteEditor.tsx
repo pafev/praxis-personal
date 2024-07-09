@@ -5,14 +5,15 @@ import {
   type InlineContentSchema,
   locales,
   type StyleSchema,
-  type PartialBlock }
-from "@blocknote/core";
+  type PartialBlock,
+} from "@blocknote/core";
 import { uploadUrl } from "~/lib/cloudinaryUpload";
 
 export function useMyBlockNoteEditor(
-  initialContent: PartialBlock[] | undefined = [ { type: "paragraph", content: "Começe a Escrever Agora!!!" } ]
+  initialContent: PartialBlock[] | undefined = [
+    { type: "paragraph", content: "Começe a Escrever Agora!!!" },
+  ],
 ) {
-
   const editor: unknown = useCreateBlockNote({
     trailingBlock: false,
     initialContent,
@@ -21,7 +22,7 @@ export function useMyBlockNoteEditor(
       const reader = new FileReader();
       reader.onloadend = async () => {
         try {
-          const { url } = await uploadUrl(reader.result as string);
+          const { url } = await uploadUrl({ url: reader.result as string });
           return url;
         } catch (error) {
           throw error;
@@ -35,5 +36,9 @@ export function useMyBlockNoteEditor(
     },
   });
 
-  return editor as BlockNoteEditor<Record<string, BlockConfig>, InlineContentSchema, StyleSchema>
+  return editor as BlockNoteEditor<
+    Record<string, BlockConfig>,
+    InlineContentSchema,
+    StyleSchema
+  >;
 }

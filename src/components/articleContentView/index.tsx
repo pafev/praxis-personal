@@ -3,10 +3,14 @@ import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 
-import "./article.css";
+import "./styles-blocknote.css";
 import { type PartialBlock } from "@blocknote/core";
 
-export default function Article({ content }: { content: PartialBlock[] }) {
+export default function ArticleContentView({
+  content,
+}: {
+  content: PartialBlock[];
+}) {
   const editor = useCreateBlockNote({
     trailingBlock: false,
     initialContent: content,

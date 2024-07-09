@@ -1,20 +1,32 @@
 "use client";
 import { api } from "~/trpc/react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button, buttonVariants } from "~/components/ui/button";
 import Image from "next/image";
 import { useMyBlockNoteEditor } from "~/hooks/useMyBlockNoteEditor";
 import { ArticleContentEditor } from "~/components/articleContentEditor";
 import { getCldImageUrl } from "next-cloudinary";
-import { useFormCreateArticle } from "~/hooks/useFormCreateArticle";
+import { useFormUpdateArticle } from "~/hooks/useFormUpdateArticle";
 import { ImageUp } from "lucide-react";
 import { useDisabePgKey } from "~/hooks/useDisablePgKey";
 
-export default function CreateArticlePage() {
+export default function FormEditArticle({
+  initialData,
+}: {
+  initialData: {
+    id: number;
+    title: string;
+    description?: string;
+    content: object[];
+    imageSrc?: string;
+    createdByImageSrc: string;
+  };
+}) {
+  const { id: articleId, createdByImageSrc, ...initialFormData } = initialData;
+
   const router = useRouter();
 
-  const { mutate, isPending } = api.article.createUnique.useMutation({
+  const { mutate, isPending } = api.article.updateUnique.useMutation({
     onSuccess: (data) => {
       router.push("/blog/" + data);
     },
@@ -23,19 +35,18 @@ export default function CreateArticlePage() {
     },
   });
 
-  const { data: session } = useSession();
-
-  const editor = useMyBlockNoteEditor();
+  const editor = useMyBlockNoteEditor(initialFormData.content);
   const {
     formData,
     handleChangeContent,
     handleChangeImageSrc,
     handleChangeInputText,
     handleSubmit,
-  } = useFormCreateArticle({
+  } = useFormUpdateArticle({
     editor,
-    createFn: mutate,
-    createdById: session?.user.id,
+    updateFn: mutate,
+    articleId,
+    initialFormData,
   });
 
   const urlDefaultBanner = getCldImageUrl({ src: "what-is-unsplash_axoalg" });
@@ -56,7 +67,7 @@ export default function CreateArticlePage() {
             className="absolute h-full w-screen object-cover"
           />
           <Image
-            src={session?.user.image ?? ""}
+            src={createdByImageSrc ?? ""}
             alt="foto-autor"
             width={80}
             height={80}
@@ -88,6 +99,7 @@ export default function CreateArticlePage() {
           placeholder="Título do artigo"
           onChange={handleChangeInputText}
           className="mx-8 mt-12 w-[88%] border-none font-lora text-5xl font-semibold outline-none lg:mx-36 lg:text-7xl"
+          value={formData.title}
         />
         <input
           type="text"
@@ -95,6 +107,7 @@ export default function CreateArticlePage() {
           placeholder="Descrição sucinta do artigo"
           onChange={handleChangeInputText}
           className="mx-8 w-[88%] border-none outline-none lg:mx-36"
+          value={formData.description}
         />
       </div>
       <ArticleContentEditor editor={editor} onChange={handleChangeContent} />
@@ -102,7 +115,7 @@ export default function CreateArticlePage() {
         disabled={isPending}
         className="mx-8 mt-20 rounded-sm border-2 border-vermelho-praxis bg-white text-vermelho-praxis shadow-md transition-all ease-in-out hover:border-vermelho-praxis hover:bg-white hover:text-vermelho-praxis hover:shadow-lg lg:mx-36"
       >
-        Criar Artigo
+        Finalizar Edição
       </Button>
     </form>
   );

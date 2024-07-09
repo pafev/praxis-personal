@@ -2,40 +2,28 @@ import type {
   BlockConfig,
   BlockNoteEditor,
   InlineContentSchema,
-  PartialBlock,
   StyleSchema,
 } from "@blocknote/core";
 import type { UseMutateFunction } from "@tanstack/react-query";
-import type { User } from "next-auth";
 import { useState } from "react";
 import { uploadUrl } from "~/lib/cloudinaryUpload";
 
-export function useFormArticle({
+export function useFormCreateArticle({
   editor,
-  user,
-  mutate,
+  createdById,
+  createFn,
 }: {
   editor: BlockNoteEditor<
     Record<string, BlockConfig>,
     InlineContentSchema,
     StyleSchema
   >;
-  user?: User;
-  mutate: UseMutateFunction<
+  createdById?: string;
+  createFn: UseMutateFunction<
     unknown,
     unknown,
-    {
-      title: string;
-      content: PartialBlock[];
-      createdById: string;
-      description?: string | undefined;
-      themes?:
-        | {
-            name: string;
-          }[]
-        | undefined;
-      imageSrc?: string | undefined;
-    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any
   >;
 }) {
   const [formData, setFormData] = useState({
@@ -66,14 +54,18 @@ export function useFormArticle({
   }
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
-    const uploadedImage = await uploadUrl(formData.imageSrc);
-    if (user && formData.content) {
-      mutate({
+    const publicId = formData.title
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\W+/g, "-");
+    const uploadedImage = await uploadUrl({ url: formData.imageSrc, publicId });
+    if (createdById && formData.content) {
+      createFn({
         content: formData.content,
         title: formData.title,
         description: formData.description,
         imageSrc: uploadedImage.url,
-        createdById: user.id,
+        createdById,
       });
     }
   }

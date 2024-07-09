@@ -1,9 +1,9 @@
 "use client";
 import { type BlogFilterParams } from "../../page";
-import { ArticleCard } from "../articles";
 import type { ArticleGetAllPerPage } from "~/server/api/routers";
 import { useInfiniteScroll } from "~/hooks/useInfiniteScroll";
 import SpinnerLoading from "./spinnerLoading";
+import { ArticleCard } from "./articleCard";
 
 export function InfiniteScrollArticles({
   filterParams,

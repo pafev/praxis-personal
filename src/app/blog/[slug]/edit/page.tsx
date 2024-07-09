@@ -1,11 +1,9 @@
-import dynamic from "next/dynamic";
 import { api } from "~/trpc/server";
 import { unstable_noStore as noStore } from "next/cache";
 import { type ArticleGetOneBySlug } from "~/server/api/routers";
+import FormEditArticle from "./_components/formEditArticle";
 
-const Editor = dynamic(() => import("./_components/editor"), { ssr: false });
-
-export default async function EditBlogPage({
+export default async function EditArticlePage({
   params,
 }: {
   params: { slug: string };
@@ -15,16 +13,20 @@ export default async function EditBlogPage({
     slug: params.slug,
   })) as ArticleGetOneBySlug;
 
+  if (!article) return <span>Ops! Para que Esse Artigo Não Existe</span>;
+
+  const initialData = {
+    id: article.id,
+    title: article.title,
+    description: article.description ?? undefined,
+    content: article.content,
+    imageSrc: article.imageSrc ?? undefined,
+    createdByImageSrc: article.createdBy.image,
+  };
+
   return (
     <main className="min-h-screen font-noto">
-      {!!article && (
-        <>
-          {article.content && (
-            <Editor articleId={article.id} initialContent={article.content} />
-          )}
-        </>
-      )}
-      {!article && <span>Artigo Não Existe</span>}
+      <FormEditArticle initialData={initialData} />
     </main>
   );
 }

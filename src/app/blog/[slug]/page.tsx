@@ -4,11 +4,14 @@ import { type ArticleGetOneBySlug } from "~/server/api/routers";
 import { CldImage } from "~/components/cldImage";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import Link from "next/link";
-import { buttonVariants } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
+import { conversorDataTexto } from "~/lib/conversorDataTexto";
+import { getServerAuthSession } from "~/server/auth";
+import { MyLinkButton } from "./_components/myLinkButton";
+import { DeleteButton } from "./_components/deleteButton";
 
-const Article = dynamic(() => import("./_components/article"), { ssr: false });
+const Article = dynamic(() => import("~/components/articleContentView"), {
+  ssr: false,
+});
 
 export default async function ArticlePage({
   params,
@@ -21,11 +24,13 @@ export default async function ArticlePage({
     slug: params.slug,
   })) as ArticleGetOneBySlug;
 
+  const session = await getServerAuthSession();
+
   return (
-    <main className="min-h-screen w-screen bg-white pb-28 font-noto">
+    <main className="min-h-screen bg-white pb-28 font-noto">
       {!!article && (
-        <section>
-          <div className="w-full pb-16 shadow-md">
+        <>
+          <div className="flex w-full flex-col pb-16 shadow-md">
             <CldImage
               src={article.imageSrc ?? "what-is-unsplash_axoalg"}
               width={1800}
@@ -56,24 +61,26 @@ export default async function ArticlePage({
                 <span className="line-clamp-1">{article.createdBy.name}</span>
               </div>
               <div className="flex items-center">
-                <span className="mx-2 pb-[1px] text-xl">●</span>
-                {article.createdAt.toDateString()}
+                <span className="mx-2 pb-[1px] text-lg">●</span>
+                {conversorDataTexto(article.createdAt)}
               </div>
             </div>
+            {!!session && (
+              <div className="mx-8 my-4 flex gap-3 self-start lg:mx-36 lg:-mt-10 lg:mb-0 lg:self-end">
+                <MyLinkButton href={`/blog/${params.slug}/edit`}>
+                  Editar
+                </MyLinkButton>
+                <DeleteButton>Excluir</DeleteButton>
+              </div>
+            )}
           </div>
           <Article content={article.content} />
-          <Link
-            href={"/blog"}
-            className={cn(
-              buttonVariants(),
-              "mx-8 mt-20 rounded-sm border-2 border-vermelho-praxis bg-white text-vermelho-praxis shadow-md transition-all ease-in-out hover:border-vermelho-praxis hover:bg-white hover:text-vermelho-praxis hover:shadow-lg lg:mx-36",
-            )}
-          >
+          <MyLinkButton href="/blog" className="mx-8 mt-20 lg:mx-36">
             Voltar para o Blog
-          </Link>
-        </section>
+          </MyLinkButton>
+        </>
       )}
-      {!article && <>Esse Artigo Não Existe</>}
+      {!article && <>Ops! Para que Esse Artigo Não Existe</>}
     </main>
   );
 }

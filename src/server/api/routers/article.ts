@@ -174,8 +174,8 @@ const articleRouter = createTRPCRouter({
       const slug = input.title
         ? input.title
             .normalize("NFD")
-            .replace(/\p{Mn}/gu, "")
-            .replaceAll(" ", "-")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/\W+/g, "-")
         : undefined;
 
       try {
@@ -191,7 +191,7 @@ const articleRouter = createTRPCRouter({
           },
         });
 
-        return updatedPost;
+        return updatedPost.slug;
       } catch (err) {
         if (err instanceof PrismaClientKnownRequestError) {
           if (err.code === "P2025") {

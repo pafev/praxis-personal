@@ -5,14 +5,14 @@ import cloudinary from "~/utils/cloudinaryApi";
 export async function POST(request: NextRequest) {
   const dataSchema = z.object({
     url: z.string().url(),
-    public_id: z.string().optional(),
+    publicId: z.string().optional(),
   });
   const data = (await request.json()) as z.infer<typeof dataSchema>;
 
   try {
     dataSchema.parse(data);
     const uploadedImage = await cloudinary.uploader.upload(data.url, {
-      public_id: data.public_id,
+      public_id: data.publicId,
       upload_preset: "unsigned_upload",
       allowed_formats: ["jpg", "png", "jpeg", "webp", "svg", "ico", "jfif"],
     });
