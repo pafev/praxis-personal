@@ -5,6 +5,7 @@ import type {
   StyleSchema,
 } from "@blocknote/core";
 import type { UseMutateFunction } from "@tanstack/react-query";
+import { getCldImageUrl } from "next-cloudinary";
 import { useState } from "react";
 import { uploadUrl } from "~/lib/cloudinaryUpload";
 
@@ -37,7 +38,9 @@ export function useFormUpdateArticle({
     title: initialFormData.title,
     description: initialFormData.description ?? "",
     content: initialFormData.content,
-    imageSrc: initialFormData.imageSrc ?? "",
+    imageSrc: initialFormData.imageSrc
+      ? getCldImageUrl({ src: initialFormData.imageSrc })
+      : "",
   });
   function handleChangeInputText(ev: React.ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, [ev.target.name]: ev.target.value });

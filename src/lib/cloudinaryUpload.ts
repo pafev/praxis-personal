@@ -11,6 +11,7 @@ async function uploadUrl({
     const response = await fetch("/api/cloudinary", {
       method: "POST",
       body: JSON.stringify({ url, publicId }),
+      cache: "no-store",
     });
     const uploadedImage = (await response.json()) as UploadApiResponse;
     return uploadedImage;
