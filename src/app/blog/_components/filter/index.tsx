@@ -1,6 +1,6 @@
 "use client";
 import { type Theme } from "@prisma/client";
-import { ListFilter, Trash2 } from "lucide-react";
+import { ListFilter, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -88,7 +88,7 @@ export function Filters({
             );
           }}
         >
-          <Trash2 size={18} />
+          <X size={18} />
         </Button>
       </div>
       <span className="hidden self-center font-lora font-semibold lg:flex">

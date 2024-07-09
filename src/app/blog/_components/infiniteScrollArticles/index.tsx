@@ -17,8 +17,8 @@ export function InfiniteScrollArticles({
   });
 
   return (
-    <section className="mx-8 mb-20 flex flex-col lg:mx-36">
-      <div className="flex w-full flex-wrap justify-center gap-8">
+    <section className="mx-8 my-8 mb-20 flex flex-col lg:mx-36">
+      <div className="grid w-full gap-10 lg:grid-cols-2 2xl:grid-cols-3">
         {articles.map((article) => (
           <ArticleCard key={article.id} article={article} />
         ))}

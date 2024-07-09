@@ -8,6 +8,8 @@ import { useMyBlockNoteEditor } from "~/hooks/useMyBlockNoteEditor";
 import { BlockNoteArticle } from "~/components/blockNoteArticle";
 import { getCldImageUrl } from "next-cloudinary";
 import { useFormArticle } from "~/hooks/useFormArticle";
+import { ImageUp } from "lucide-react";
+import { useDisabePgKey } from "~/hooks/useDisablePgKey";
 
 export default function CreateArticlePage() {
   const router = useRouter();
@@ -34,10 +36,12 @@ export default function CreateArticlePage() {
 
   const urlDefaultBanner = getCldImageUrl({ src: "what-is-unsplash_axoalg" });
 
+  useDisabePgKey();
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="min-h-screen w-screen bg-white pb-28 font-noto"
+      className="min-h-screen w-screen overflow-x-hidden bg-white pb-28 font-noto"
     >
       <div className="pb-16 shadow-md">
         <div className="relative flex h-40 items-end justify-between lg:h-64">
@@ -69,6 +73,7 @@ export default function CreateArticlePage() {
               })}
               htmlFor="imageSrc"
             >
+              <ImageUp className="mr-2" size={18} />
               Alterar Banner
             </label>
           </div>

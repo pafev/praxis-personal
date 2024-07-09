@@ -5,18 +5,19 @@ import { type ArticleGetAllPerPage } from "~/server/api/routers";
 
 export function ArticleCard({ article }: { article: ArticleGetAllPerPage }) {
   return (
-    <div className="flex h-[420px] w-[260px] flex-col outline-none transition-all ease-out sm:h-[480px] sm:w-[320px] lg:w-[380px]">
-      <Link href={"/blog/" + article.slug}>
-        <CldImage
-          src={article.imageSrc ?? "what-is-unsplash_axoalg"}
-          alt="banner-artigo"
-          height={260}
-          width={380}
-          className="flex h-[200px] w-full rounded-lg shadow-md transition-all duration-200 ease-in-out hover:opacity-85 hover:shadow-xl sm:h-[260px]"
-          crop={"fill"}
-        />
-      </Link>
-      <div className="mt-4 flex flex-col px-4 text-sm opacity-70 sm:flex-row">
+    <Link
+      href={"/blog/" + article.slug}
+      className="mx-auto flex h-[420px] w-[240px] flex-col rounded-md border-[1px] border-off-black/15 shadow outline-none transition-all ease-out hover:shadow-lg sm:h-[480px] sm:w-[380px]"
+    >
+      <CldImage
+        src={article.imageSrc ?? "what-is-unsplash_axoalg"}
+        alt="banner-artigo"
+        height={260}
+        width={380}
+        className="rounded-t-mdtransition-all flex h-[180px] w-full duration-200 ease-in-out hover:opacity-85 sm:h-[260px]"
+        crop={"fill"}
+      />
+      <div className="mb-2 mt-4 flex flex-col px-4 text-sm opacity-70 sm:flex-row">
         <span className="text-vermelho-excelencia">
           {conversorDataTexto(article.createdAt)},
         </span>
@@ -30,12 +31,9 @@ export function ArticleCard({ article }: { article: ArticleGetAllPerPage }) {
       <p className="mt-4 line-clamp-2 min-h-10 px-4 text-sm font-light opacity-70 sm:min-h-12 sm:text-base">
         {article.description}
       </p>
-      <Link
-        className="mx-4 my-2 self-start rounded font-bold hover:underline"
-        href={"/blog/" + article.slug}
-      >
+      <span className="mx-4 mt-2 self-start rounded font-bold hover:underline">
         Leia Mais
-      </Link>
-    </div>
+      </span>
+    </Link>
   );
 }

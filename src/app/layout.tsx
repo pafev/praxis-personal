@@ -22,11 +22,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="pt-BR"
-      className={cn(font.className, "w-screen overflow-x-hidden antialiased")}
-    >
-      <body>
+    <html lang="pt-BR" className={cn(font.className, "antialiased")}>
+      <body className="w-screen overflow-x-hidden">
         <Navbar />
         <TRPCReactProvider>
           <AuthProvider>{children}</AuthProvider>
