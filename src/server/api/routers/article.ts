@@ -111,8 +111,8 @@ const articleRouter = createTRPCRouter({
       try {
         const slug = input.title
           .normalize("NFD")
-          .replace(/\p{Mn}/gu, "")
-          .replaceAll(" ", "-");
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/\W+/g, "-");
         const createdArticle = await ctx.db.article.create({
           data: {
             title: input.title,
