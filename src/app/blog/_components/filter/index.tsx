@@ -38,7 +38,7 @@ export function Filters({
           }}
           defaultValue={filterParams.theme}
         >
-          <SelectTrigger className="min-w-36 border-black bg-white px-4 text-left hover:shadow-lg">
+          <SelectTrigger className="min-w-36 border-black bg-white px-4 text-left hover:shadow-md">
             <SelectValue placeholder="Tema" />
           </SelectTrigger>
           <SelectContent className="min-w-36 bg-white">
@@ -62,7 +62,7 @@ export function Filters({
           }}
           defaultValue={filterParams.date}
         >
-          <SelectTrigger className="min-w-40 border-black bg-white px-4 text-left hover:shadow-lg">
+          <SelectTrigger className="min-w-40 border-black bg-white px-4 text-left hover:shadow-md">
             <SelectValue placeholder="Data" />
           </SelectTrigger>
           <SelectContent className="min-w-40 bg-white">
@@ -74,7 +74,7 @@ export function Filters({
           </SelectContent>
         </Select>
         <Button
-          className="rounded-sm border-2 border-vermelho-praxis bg-transparent p-3 text-vermelho-praxis transition-all ease-in-out hover:text-white hover:shadow-lg"
+          className="rounded-sm border-2 border-vermelho-praxis bg-transparent p-3 text-vermelho-praxis transition-all ease-in-out hover:text-white hover:shadow-md"
           onClick={() => {
             router.push(
               "?" +
