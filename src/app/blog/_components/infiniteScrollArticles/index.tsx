@@ -18,14 +18,14 @@ export function InfiniteScrollArticles({
   });
 
   return (
-    <section className="mx-8 my-8 mb-36 flex flex-col lg:mx-36">
+    <section className="mx-8 mb-36 mt-8 flex flex-col lg:mx-36">
       <div className="grid w-full gap-10 lg:grid-cols-2 2xl:grid-cols-3">
         {articles.map((article) => (
           <ArticleCard key={article.id} article={article} />
         ))}
       </div>
       {!!isLoading && (
-        <div ref={ref} className="mt-20 flex items-center justify-center">
+        <div ref={ref} className="flex items-center justify-center">
           <SpinnerLoading />
         </div>
       )}

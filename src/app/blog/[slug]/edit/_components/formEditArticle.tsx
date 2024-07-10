@@ -36,6 +36,7 @@ export default function FormEditArticle({
   });
 
   const editor = useMyBlockNoteEditor(initialFormData.content);
+
   const {
     formData,
     handleChangeContent,

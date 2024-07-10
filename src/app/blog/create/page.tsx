@@ -26,6 +26,7 @@ export default function CreateArticlePage() {
   const { data: session } = useSession();
 
   const editor = useMyBlockNoteEditor();
+
   const {
     formData,
     handleChangeContent,

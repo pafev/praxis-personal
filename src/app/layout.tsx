@@ -7,6 +7,7 @@ import { Noto_Sans } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import { cn } from "~/lib/utils";
 import { AuthProvider } from "~/components/authProvider";
+import { Toaster } from "~/components/ui/toaster";
 
 export const metadata = {
   title: "Praxis Consultoria Jr",
@@ -27,6 +28,7 @@ export default function RootLayout({
         <Navbar />
         <TRPCReactProvider>
           <AuthProvider>{children}</AuthProvider>
+          <Toaster />
         </TRPCReactProvider>
         <Footer />
       </body>
