@@ -20,4 +20,24 @@ async function uploadUrl({
   }
 }
 
-export { uploadUrl };
+async function uploadFile({
+  file,
+  publicId,
+}: {
+  file: File;
+  publicId: string;
+}) {
+  try {
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const fileContent = reader.result as string;
+      const uploadedImage = await uploadUrl({ url: fileContent, publicId });
+      return uploadedImage;
+    };
+    reader.readAsDataURL(file);
+  } catch (error) {
+    throw error;
+  }
+}
+
+export { uploadUrl, uploadFile };
