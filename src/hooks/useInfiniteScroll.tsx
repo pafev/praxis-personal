@@ -38,6 +38,7 @@ export function useInfiniteScroll({
     if (inView) {
       loadMoreArticles().catch((e) => console.log(e));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
   return { articles, ref, isLoading };
