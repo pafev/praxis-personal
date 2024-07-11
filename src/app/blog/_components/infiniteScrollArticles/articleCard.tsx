@@ -1,6 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
-import { CldImage } from "~/components/cldImage";
 import { conversorDataTexto } from "~/lib/conversorDataTexto";
+import { urlDefaultImg } from "~/lib/defaultImg";
 import { type ArticleGetAllPerPage } from "~/server/api/routers";
 
 export function ArticleCard({ article }: { article: ArticleGetAllPerPage }) {
@@ -9,13 +10,12 @@ export function ArticleCard({ article }: { article: ArticleGetAllPerPage }) {
       href={"/blog/" + article.slug}
       className="mx-auto flex h-[420px] w-[240px] flex-col rounded-md border-[1px] border-off-black/15 shadow outline-none transition-all ease-out hover:shadow-lg sm:h-[480px] sm:w-[380px]"
     >
-      <CldImage
-        src={article.imageSrc ?? "what-is-unsplash_axoalg"}
+      <Image
+        src={article.imageSrc ?? urlDefaultImg}
         alt="banner-artigo"
         height={260}
         width={380}
-        className="rounded-t-mdtransition-all flex h-[180px] w-full duration-200 ease-in-out hover:opacity-85 sm:h-[260px]"
-        crop={"fill"}
+        className="rounded-t-mdtransition-all flex h-[180px] w-full object-cover duration-200 ease-in-out hover:opacity-85 sm:h-[260px]"
       />
       <div className="mb-2 mt-4 flex flex-col px-4 text-sm opacity-70 sm:flex-row">
         <span className="text-vermelho-excelencia">

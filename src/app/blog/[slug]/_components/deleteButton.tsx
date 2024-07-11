@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteArticle } from "~/actions/deleteArticle";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,7 +14,6 @@ import {
 } from "~/components/ui/alert-dialog";
 import { buttonVariants } from "~/components/ui/button";
 import { useToast } from "~/components/ui/use-toast";
-import { api } from "~/trpc/server";
 
 export function DeleteButton({
   children,
@@ -33,7 +33,7 @@ export function DeleteButton({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Tem Certeza Absoluta?</AlertDialogTitle>
+          <AlertDialogTitle>Tem Absoluta Certeza?</AlertDialogTitle>
           <AlertDialogDescription>
             Essa ação não pode ser desfeita. Ao continuar, o artigo será apagado
             permanentemente do blog.
@@ -44,7 +44,7 @@ export function DeleteButton({
           <AlertDialogAction
             onClick={async () => {
               try {
-                await api.article.deleteUnique({ id: artiicleId });
+                await deleteArticle(artiicleId);
               } catch (error) {
                 toast({
                   title: "Ops! Não Deu para Excluir o Artigo",

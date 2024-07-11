@@ -1,13 +1,13 @@
 import { api } from "~/trpc/server";
 import { unstable_noStore as noStore } from "next/cache";
 import { type ArticleGetOneBySlug } from "~/server/api/routers";
-import { CldImage } from "~/components/cldImage";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { conversorDataTexto } from "~/lib/conversorDataTexto";
 import { getServerAuthSession } from "~/server/auth";
 import { MyLinkButton } from "./_components/myLinkButton";
 import { DeleteButton } from "./_components/deleteButton";
+import { urlDefaultImg } from "~/lib/defaultImg";
 
 const ArticleContentView = dynamic(
   () => import("~/components/articleContentView"),
@@ -33,25 +33,26 @@ export default async function ArticlePage({
 
   return (
     <main className="min-h-screen bg-white pb-28 font-noto">
-      <div className="flex w-full flex-col pb-16 shadow-md">
-        <CldImage
-          src={article.imageSrc ?? "what-is-unsplash_axoalg"}
-          width={1800}
-          height={320}
-          crop={"fill"}
-          alt="banner-artigo"
-        />
-        <Image
-          src={article.createdBy.image}
-          alt="foto-autor"
-          width={80}
-          height={80}
-          className="mx-8 -mt-10 rounded-[50%] lg:mx-36"
-        />
+      <div className="flex flex-col pb-16 shadow-md">
+        <div className="relative flex h-40 items-end justify-between lg:h-64">
+          <Image
+            src={article.imageSrc ?? urlDefaultImg}
+            fill
+            className="absolute h-full w-screen object-cover"
+            alt="banner-artigo"
+          />
+          <Image
+            src={article.createdBy.image}
+            alt="foto-autor"
+            width={80}
+            height={80}
+            className="z-10 -mb-10 ml-8 rounded-[50%] lg:ml-36"
+          />
+        </div>
         <h1 className="mx-8 mt-12 font-lora text-5xl font-semibold lg:mx-36 lg:text-7xl">
           {article.title}
         </h1>
-        <div className="lg:text-md mx-8 mt-2 flex flex-col text-sm font-light sm:flex-row lg:mx-36">
+        <div className="lg:text-md mx-8 mt-3 flex flex-col text-sm font-light sm:flex-row lg:mx-36">
           <div className="flex items-center">
             por
             <Image

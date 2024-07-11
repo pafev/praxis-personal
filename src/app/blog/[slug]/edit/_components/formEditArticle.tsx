@@ -5,10 +5,10 @@ import { Button, buttonVariants } from "~/components/ui/button";
 import Image from "next/image";
 import { useMyBlockNoteEditor } from "~/hooks/useMyBlockNoteEditor";
 import { ArticleContentEditor } from "~/components/articleContentEditor";
-import { getCldImageUrl } from "next-cloudinary";
 import { useFormUpdateArticle } from "~/hooks/useFormUpdateArticle";
 import { ImageUp } from "lucide-react";
 import { useDisabePgKey } from "~/hooks/useDisablePgKey";
+import { urlDefaultImg } from "~/lib/defaultImg";
 
 export default function FormEditArticle({
   initialData,
@@ -50,8 +50,6 @@ export default function FormEditArticle({
     initialFormData,
   });
 
-  const urlDefaultBanner = getCldImageUrl({ src: "what-is-unsplash_axoalg" });
-
   useDisabePgKey();
 
   return (
@@ -62,7 +60,7 @@ export default function FormEditArticle({
       <div className="pb-16 shadow-md">
         <div className="relative flex h-40 items-end justify-between lg:h-64">
           <Image
-            src={formData.imageSrc || urlDefaultBanner}
+            src={formData.imageSrc || urlDefaultImg}
             fill
             alt="banner-artigo"
             className="absolute h-full w-screen object-cover"

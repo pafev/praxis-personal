@@ -5,10 +5,10 @@ import type {
   StyleSchema,
 } from "@blocknote/core";
 import type { UseMutateFunction } from "@tanstack/react-query";
-import { getCldImageUrl } from "next-cloudinary";
 import { useState } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import { uploadUrl } from "~/lib/cloudinaryUpload";
+import { urlDefaultImg } from "~/lib/defaultImg";
 
 export function useFormUpdateArticle({
   editor,
@@ -40,9 +40,7 @@ export function useFormUpdateArticle({
     title: initialFormData.title,
     description: initialFormData.description ?? "",
     content: initialFormData.content,
-    imageSrc: initialFormData.imageSrc
-      ? getCldImageUrl({ src: initialFormData.imageSrc })
-      : "",
+    imageSrc: initialFormData.imageSrc ?? urlDefaultImg,
   });
   function handleChangeInputText(ev: React.ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, [ev.target.name]: ev.target.value });
