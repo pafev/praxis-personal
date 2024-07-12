@@ -1,17 +1,17 @@
-import { Session } from "next-auth";
+import { type Session } from "next-auth";
 
 export interface UserSessionProps {
-    session: Session | null;
+  session: Session | null;
 }
 
 export type ModalEditarParceiroProps = {
-    type: string,
-    parceiroId?: number,
-    refetch?: () => void,
-    closeModal: () => void,
-}
+  type: string;
+  parceiroId?: number;
+  refetch?: () => void;
+  closeModal: () => void;
+};
 
 export type SetUpdateParceiroProps = {
-    parceiroId: number,
-    refetch: () => void,
-}
+  parceiroId: number;
+  refetch: () => void;
+};

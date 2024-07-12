@@ -35,6 +35,7 @@ export function CloudUpload({ ...props }: CldUploadWidgetProps) {
       onSuccess={(result, { widget }) => {
         const info = result.info as CloudinaryUploadWidgetInfo;
         setUrl(info.secure_url);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
         widget.minimize();
       }}
     >

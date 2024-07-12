@@ -38,7 +38,6 @@ export const partnerRouter = createTRPCRouter({
   createUnique: protectedProcedure
     .input(
       z.object({
-        name: z.string().min(1),
         image: z.string().url().min(1),
         link: z.string().url().optional(),
       }),
@@ -84,7 +83,6 @@ export const partnerRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        name: z.string().optional(),
         image: z.string().url().optional(),
         link: z.string().url().optional(),
       }),

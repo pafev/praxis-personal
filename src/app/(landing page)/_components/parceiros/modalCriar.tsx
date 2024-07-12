@@ -27,22 +27,24 @@ import { Input } from "~/components/ui/input";
 import { api } from "~/trpc/react";
 
 export default function ModalCriar() {
-  const createParceiro = api.parceiros.createParceiro.useMutation();
+  const { mutateAsync } = api.partners.createUnique.useMutation();
 
   const formSchema = z.object({
-    imagem: z.string().min(1, { message: "Campo não pode ser nulo." }),
+    image: z.string().min(1, { message: "Campo não pode ser nulo." }),
     link: z.string(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { imagem: "", link: "" },
+    defaultValues: { image: "", link: "" },
   });
 
   const router = useRouter();
 
   const onSubmit = (dados: z.infer<typeof formSchema>) => {
-    createParceiro.mutateAsync(dados).then(() => router.refresh());
+    mutateAsync(dados)
+      .then(() => router.refresh())
+      .catch(console.log);
   };
 
   return (
@@ -61,7 +63,7 @@ export default function ModalCriar() {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="imagem"
+              name="image"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Imagem*</FormLabel>

@@ -36,7 +36,7 @@ export default function ModalEditar({ id }: { id: number }) {
 
   const router = useRouter();
 
-  const updatePortfolio = api.portfolio.update.useMutation();
+  const { mutateAsync } = api.portfolio.updateUnique.useMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,9 +44,11 @@ export default function ModalEditar({ id }: { id: number }) {
   });
 
   const onSubmit = (dados: z.infer<typeof formSchema>) => {
-    updatePortfolio.mutateAsync({ id, ...dados }).then(() => {
-      router.refresh();
-    });
+    mutateAsync({ id, ...dados })
+      .then(() => {
+        router.refresh();
+      })
+      .catch(console.log);
   };
 
   return (
