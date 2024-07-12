@@ -1,5 +1,5 @@
 import { getCldImageUrl } from "next-cloudinary";
 
 export const urlDefaultImg = getCldImageUrl({
-  src: "what-is-unsplash_axoalg",
+  src: "width_800_8_geoysr",
 });

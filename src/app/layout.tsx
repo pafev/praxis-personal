@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={cn(font.className, "antialiased")}>
-      <body className="w-screen overflow-x-hidden">
+      <body className="min-h-screen w-screen overflow-x-hidden bg-white">
         <Navbar />
         <TRPCReactProvider>
           <AuthProvider>{children}</AuthProvider>

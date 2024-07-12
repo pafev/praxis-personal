@@ -47,7 +47,7 @@ const articleRouter = createTRPCRouter({
             input.theme === "Ver Tudo"
               ? undefined
               : { some: { name: input.theme } },
-          title: { contains: input.search },
+          title: { contains: `%${input.search?.trim()}%` },
         },
         orderBy: {
           createdAt: createdAtOrder,

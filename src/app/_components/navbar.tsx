@@ -11,7 +11,7 @@ const Navbar = async () => {
   const session = await getServerAuthSession();
 
   return (
-    <nav className="fixed z-20 flex h-20 w-screen items-center justify-between bg-white/95 px-8 shadow-md backdrop-blur-sm lg:px-36">
+    <nav className="fixed z-20 flex h-20 w-screen items-center justify-between bg-white px-8 shadow-md lg:px-36">
       <div className="flex items-center">
         <Link href="/" className="flex-shrink-0">
           <Image

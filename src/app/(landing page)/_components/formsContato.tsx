@@ -19,8 +19,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { api } from "~/trpc/react";
+import { Textarea } from "~/components/ui/textarea";
 
 export function FormsContato() {
+  const { data: portfolios } = api.portfolio.getAll.useQuery();
+
   const formSchema = z.object({
     empresa: z
       .string()
@@ -56,9 +60,27 @@ export function FormsContato() {
     },
   });
 
-  const handleSubmit = form.handleSubmit(({ email }) =>
-    console.log("submeteu para o email ", email),
-  );
+  const handleSubmit = async (data: {
+    empresa: string;
+    nome: string;
+    email: string;
+    servico: string;
+    mensagem: string;
+  }) => {
+    const body = {
+      service_id: process.env.NEXT_PUBLIC_MAIL_SERVICE_ID,
+      template_id: process.env.NEXT_PUBLIC_MAIL_TEMPLATE_ID,
+      user_id: process.env.NEXT_PUBLIC_MAIL_USER_ID,
+      template_params: data,
+    };
+    await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
 
   return (
     <div
@@ -67,17 +89,17 @@ export function FormsContato() {
     >
       <div className="mx-8 w-full text-white md:mr-0 md:w-[403px] lg:ml-36">
         <Form {...form}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
             <div className="space-y-8">
               <FormField
                 control={form.control}
                 name="empresa"
                 render={({ field }) => (
                   <FormItem className="relative flex flex-col">
-                    <FormControl className="h-11 border-2 border-transparent border-b-white bg-transparent">
+                    <FormControl className="h-11 border-2 border-transparent border-b-off-white/85 bg-transparent transition-all ease-linear focus:border-b-white">
                       <input
                         placeholder="Empresa"
-                        className="cor-branca font-noto text-lg text-off-white focus:outline-none focus:ring focus:ring-vermelho-excelencia"
+                        className="cor-branca font-noto text-off-white outline-none md:text-lg"
                         {...field}
                       />
                     </FormControl>
@@ -90,10 +112,10 @@ export function FormsContato() {
                 name="nome"
                 render={({ field }) => (
                   <FormItem className="relative flex flex-col">
-                    <FormControl className="h-11 border-2 border-transparent border-b-white bg-transparent">
+                    <FormControl className="h-11 border-2 border-transparent border-b-off-white/85 bg-transparent transition-all ease-linear focus:border-b-white">
                       <input
                         placeholder="Nome"
-                        className="cor-branca font-noto text-lg text-off-white focus:outline-none focus:ring focus:ring-vermelho-excelencia"
+                        className="cor-branca font-noto text-off-white outline-none md:text-lg"
                         {...field}
                       />
                     </FormControl>
@@ -106,10 +128,10 @@ export function FormsContato() {
                 name="email"
                 render={({ field }) => (
                   <FormItem className="relative flex flex-col">
-                    <FormControl className="h-11 border-2 border-transparent border-b-white bg-transparent">
+                    <FormControl className="h-11 border-2 border-transparent border-b-off-white/85 bg-transparent transition-all ease-linear focus:border-b-white">
                       <input
                         placeholder="Email"
-                        className="cor-branca font-noto text-lg text-off-white focus:outline-none focus:ring focus:ring-vermelho-excelencia"
+                        className="cor-branca font-noto text-off-white outline-none md:text-lg"
                         {...field}
                       />
                     </FormControl>
@@ -121,35 +143,26 @@ export function FormsContato() {
                 control={form.control}
                 name="servico"
                 render={({ field }) => (
-                  <FormItem className="relative flex flex-col">
+                  <FormItem className="relative flex flex-col ">
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <FormControl className="h-11 rounded-none border-2 border-transparent border-b-white bg-transparent">
-                        <SelectTrigger className="p-0 font-noto text-lg">
-                          <SelectValue placeholder="Serviço" />
+                      <FormControl className="h-11 rounded-none border-b-2 border-transparent border-b-off-white/85 bg-transparent  transition-all ease-linear focus:border-b-white">
+                        <SelectTrigger className="p-0 font-noto ring-0 ring-offset-0 focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 md:text-lg">
+                          <SelectValue placeholder="Serviço" className="" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="cursor-pointer bg-vermelho-excelencia text-white">
-                        <SelectItem
-                          value="Serviço 1"
-                          className="cursor-pointer"
-                        >
-                          Serviço 1
-                        </SelectItem>
-                        <SelectItem
-                          value="Serviço 2"
-                          className="cursor-pointer"
-                        >
-                          Serviço 2
-                        </SelectItem>
-                        <SelectItem
-                          value="Serviço 3"
-                          className="cursor-pointer"
-                        >
-                          Serviço 3
-                        </SelectItem>
+                      <SelectContent className="cursor-pointer border-0 bg-vermelho-praxis/80 text-white backdrop-blur">
+                        {portfolios?.map((portfolio) => (
+                          <SelectItem
+                            key={portfolio.id}
+                            value={portfolio.name}
+                            className="cursor-pointer"
+                          >
+                            {portfolio.name}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage className="text-off-white" />
@@ -161,11 +174,11 @@ export function FormsContato() {
                 name="mensagem"
                 render={({ field }) => (
                   <FormItem className="relative flex flex-col">
-                    <FormControl className="h-11 border-2 border-transparent border-b-white bg-transparent">
-                      <input
-                        placeholder="Mensagem"
-                        className="cor-branca font-noto text-lg text-off-white focus:outline-none focus:ring focus:ring-vermelho-excelencia"
+                    <FormControl className="h-11 border-2 border-transparent border-b-off-white/85 bg-transparent transition-all ease-linear focus:border-b-white">
+                      <Textarea
+                        placeholder="Mensagem adicional"
                         {...field}
+                        className="max-h-40 px-0 font-noto text-base text-off-white outline-none placeholder:text-off-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 md:text-lg"
                       />
                     </FormControl>
                     <FormMessage className="text-off-white" />
@@ -175,7 +188,7 @@ export function FormsContato() {
             </div>
             <Button
               type="submit"
-              className="mt-11 rounded border-2 border-white bg-transparent"
+              className="mt-11 rounded border-2 border-white bg-transparent px-4 py-6 hover:bg-transparent focus-visible:ring-0 md:text-lg"
             >
               Enviar
             </Button>

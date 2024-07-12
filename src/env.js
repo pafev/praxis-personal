@@ -36,6 +36,9 @@ export const env = createEnv({
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string(),
+    NEXT_PUBLIC_MAIL_SERVICE_ID: z.string(),
+    NEXT_PUBLIC_MAIL_TEMPLATE_ID: z.string(),
+    NEXT_PUBLIC_MAIL_USER_ID: z.string(),
   },
 
   /**
@@ -53,6 +56,9 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+    NEXT_PUBLIC_MAIL_SERVICE_ID: process.env.NEXT_PUBLIC_MAIL_SERVICE_ID,
+    NEXT_PUBLIC_MAIL_TEMPLATE_ID: process.env.NEXT_PUBLIC_MAIL_TEMPLATE_ID,
+    NEXT_PUBLIC_MAIL_USER_ID: process.env.NEXT_PUBLIC_MAIL_USER_ID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

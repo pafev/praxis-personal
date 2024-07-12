@@ -8,6 +8,7 @@ import { getServerAuthSession } from "~/server/auth";
 import { MyLinkButton } from "./_components/myLinkButton";
 import { DeleteButton } from "./_components/deleteButton";
 import { urlDefaultImg } from "~/lib/defaultImg";
+import { CldImage } from "~/components/cldImage";
 
 const ArticleContentView = dynamic(
   () => import("~/components/articleContentView"),
@@ -35,7 +36,7 @@ export default async function ArticlePage({
     <main className="min-h-screen bg-white pb-28 font-noto">
       <div className="flex flex-col pb-16 shadow-md">
         <div className="relative flex h-40 items-end justify-between lg:h-64">
-          <Image
+          <CldImage
             src={article.imageSrc ?? urlDefaultImg}
             fill
             className="absolute h-full w-screen object-cover"

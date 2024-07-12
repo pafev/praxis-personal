@@ -1,0 +1,23 @@
+[
+  {
+    "nome": "Qualidade de Vida no Trabalho",
+    "descricao": "Analise de problemas relacionados ao ambiente de trabalho que visa prevenir, atenuar e/ou remover as causas do mal-estar no trabalho, bem como promover a saúde e o bem-estar dos trabalhadores de determinada organização de maneira sustentável ao longo do tempo por meio de planos de intervenção de modo a possibilitar um aumento da produtividade e o bem-estar do trabalhador.",
+    "imagem": "Rectangle_32_cxqiw1"
+  },
+
+  {
+    "nome": "Mapeamento de Competências",
+    "descricao": "Serviço que visa levantar quais são as competências técnicas e comportamentais necessárias para realizar determinado trabalho e atingir objetivos. Ajuda a identificar falhas, gargalos além de ineficiências em processos e áreas do organograma. Do mesmo modo ajuda a estabelecer competências a serem desenvolvidas, treinamentos que podem ser ministrados, além de ser fundamental para processos seletivos.",
+    "imagem": "Rectangle_33_m3btgx"
+  },
+  {
+    "nome": "Descrição de Cargos",
+    "descricao": "Processo de descrição e detalhamento de tarefas, métodos e objetivos do cargo. Auxilia na padronização de processos da empresa e distribuição adequada da carga de trabalho. Pode otimizar diversos fatores relacionados à gestão de pessoa como: futuros treinamentos, avaliação de desempenho, recrutamento de voluntários e adesão de membros para concorrer a cargos de liderança além de proporcionar um norteamento para as atividades que serão realizadas permitindo constância e melhorias em toda sua execução.",
+    "imagem": "Rectangle_29_kdkhfg"
+  },
+  {
+    "nome": "Treinamentos",
+    "descricao": "Treinamentos e Workshops em temas como feedbacks, trabalho em equipes, comunicação organizacional, comunicação não-violenta, gestão de tempo e produtividade, recrutamento e seleção, onboarding e muitos outros a depender das lacunas e necessidades de capacitação dos colaboradores e da organização.",
+    "imagem": "Rectangle_31_e37pf1"
+  }
+]

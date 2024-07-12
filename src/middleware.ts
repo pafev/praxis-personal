@@ -1,10 +1,15 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getUrlByPath } from "./lib/getUrlByPath";
 import { type Session } from "next-auth";
+import { env } from "~/env";
 
 export default async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-  const token = request.cookies.get("next-auth.session-token");
+  const tokenName =
+    env.NODE_ENV === "production"
+      ? "__Secure-next-auth.session-token"
+      : "next-auth.session-token";
+  const token = request.cookies.get(tokenName);
 
   if (pathname.startsWith("/login") && token) {
     const session = (await (
