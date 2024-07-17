@@ -8,7 +8,6 @@ import { getServerAuthSession } from "~/server/auth";
 import { MyLinkButton } from "./_components/myLinkButton";
 import { DeleteButton } from "./_components/deleteButton";
 import { urlDefaultImg } from "~/lib/defaultImg";
-import { CldImage } from "~/components/cldImage";
 
 const ArticleContentView = dynamic(
   () => import("~/components/articleContentView"),
@@ -36,7 +35,7 @@ export default async function ArticlePage({
     <main className="min-h-screen bg-white pb-28 font-noto">
       <div className="flex flex-col pb-16 shadow-md">
         <div className="relative flex h-40 items-end justify-between lg:h-64">
-          <CldImage
+          <Image
             src={article.imageSrc ?? urlDefaultImg}
             fill
             className="absolute h-full w-screen object-cover"
@@ -71,7 +70,7 @@ export default async function ArticlePage({
           </div>
         </div>
         {!!session && (
-          <div className="mx-8 my-4 flex gap-3 self-start lg:mx-36 lg:-mt-10 lg:mb-0 lg:self-end">
+          <div className="mx-8 my-4 flex gap-3 self-start lg:mx-36 lg:-mt-8 lg:mb-0 lg:self-end">
             <MyLinkButton href={`/blog/${params.slug}/edit`}>
               Editar
             </MyLinkButton>

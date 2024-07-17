@@ -1,4 +1,5 @@
 import { type ReactNode } from "react";
+import { cn } from "~/lib/utils";
 
 export function IndicadorSecaoRoot({
   children,
@@ -7,7 +8,7 @@ export function IndicadorSecaoRoot({
   children: ReactNode;
   className?: string;
 }) {
-  return <div className={className ?? ""}>{children}</div>;
+  return <div className={cn("flex", className)}>{children}</div>;
 }
 
 export function IndicadorSecaoBarraVermelha({
@@ -17,7 +18,10 @@ export function IndicadorSecaoBarraVermelha({
 }) {
   return (
     <div
-      className={`relative top-[9px] h-1 w-4 bg-vermelho-praxis md:w-7 ${className}`}
+      className={cn(
+        "relative top-[9px] h-[3px] w-4 bg-vermelho-praxis shadow-[0_1px_2px_rgba(0,0,0,0.5)] md:w-7",
+        className,
+      )}
     />
   );
 }
@@ -29,7 +33,10 @@ export function IndicadorSecaoBarraEscura({
 }) {
   return (
     <div
-      className={`relative top-[9px] h-1 w-4 bg-off-black md:w-7 ${className}`}
+      className={cn(
+        "relative top-[9px] h-[3px] w-4 bg-off-black shadow-[0_1px_2px_rgba(0,0,0,0.5)] md:w-7",
+        className,
+      )}
     ></div>
   );
 }
@@ -41,5 +48,5 @@ export function IndicadorSecaoNome({
   children: ReactNode;
   className?: string;
 }) {
-  return <h1 className={`text-base ${className}`}>{children}</h1>;
+  return <h1 className={`font-lora text-base ${className}`}>{children}</h1>;
 }

@@ -5,10 +5,11 @@ import {
   PrismaClientKnownRequestError,
   PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import { revalidatePath } from "next/cache";
 
 export const partnerRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const partners = await ctx.db.partner.findMany();
+    const partners = await ctx.db.partner.findMany({ orderBy: { id: "asc" } });
     return partners;
   }),
 
@@ -38,8 +39,8 @@ export const partnerRouter = createTRPCRouter({
   createUnique: protectedProcedure
     .input(
       z.object({
-        image: z.string().url().min(1),
-        link: z.string().url().optional(),
+        image: z.string().min(1),
+        link: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -47,6 +48,7 @@ export const partnerRouter = createTRPCRouter({
         const createdPartner = await ctx.db.partner.create({
           data: input,
         });
+        revalidatePath("/");
         return createdPartner;
       } catch (err) {
         if (err instanceof PrismaClientKnownRequestError) {
@@ -83,8 +85,8 @@ export const partnerRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        image: z.string().url().optional(),
-        link: z.string().url().optional(),
+        image: z.string().optional(),
+        link: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -92,7 +94,10 @@ export const partnerRouter = createTRPCRouter({
         const { id, ...data } = input;
         const updatedPartner = await ctx.db.partner.update({
           where: { id },
-          data,
+          data: {
+            image: data.image?.length ? data.image : undefined,
+            link: data.link?.length ? data.link : undefined,
+          },
         });
         return updatedPartner;
       } catch (err) {

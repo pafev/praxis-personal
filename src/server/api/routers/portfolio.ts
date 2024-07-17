@@ -8,7 +8,9 @@ import {
 
 export const portfolioRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const portfolios = await ctx.db.portfolio.findMany();
+    const portfolios = await ctx.db.portfolio.findMany({
+      orderBy: { id: "asc" },
+    });
     return portfolios;
   }),
 
@@ -86,7 +88,7 @@ export const portfolioRouter = createTRPCRouter({
         id: z.number(),
         name: z.string().optional(),
         description: z.string().optional(),
-        image: z.string().url().optional(),
+        image: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -94,7 +96,13 @@ export const portfolioRouter = createTRPCRouter({
         const { id, ...data } = input;
         const updatedPoportfolio = await ctx.db.portfolio.update({
           where: { id },
-          data,
+          data: {
+            name: data.name?.length ? data.name : undefined,
+            description: data.description?.length
+              ? data.description
+              : undefined,
+            image: data.image?.length ? data.image : undefined,
+          },
         });
         return updatedPoportfolio;
       } catch (err) {

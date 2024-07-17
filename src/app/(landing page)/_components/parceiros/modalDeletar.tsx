@@ -15,6 +15,8 @@ import {
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Label } from "~/components/ui/label";
 
 export function ModalDeletar({
   id,
@@ -24,16 +26,21 @@ export function ModalDeletar({
   className?: string;
 }) {
   const router = useRouter();
+  const [response, setResponse] = useState("");
   const { mutate } = api.partners.deleteUnique.useMutation({
     onSuccess: () => {
       router.refresh();
+      setResponse("Parceiro deletado com sucesso!");
+    },
+    onError: () => {
+      setResponse("Ocorreu um erro ao deletar o parceiro!");
     },
   });
   return (
     <div className={className}>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button className="bg-off-white hover:bg-off-white">
+          <Button className="bg-transparent transition ease-linear hover:-translate-y-1 hover:bg-transparent">
             <Trash2 size={36} color="red" />
           </Button>
         </AlertDialogTrigger>
@@ -47,10 +54,16 @@ export function ModalDeletar({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={() => mutate({ id })}>
+            <AlertDialogAction
+              onClick={() => {
+                setResponse("");
+                mutate({ id });
+              }}
+            >
               Deletar
             </AlertDialogAction>
           </AlertDialogFooter>
+          <Label className="text-vermelho-excelencia">{response}</Label>
         </AlertDialogContent>
       </AlertDialog>
     </div>

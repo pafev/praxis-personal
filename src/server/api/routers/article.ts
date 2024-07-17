@@ -47,7 +47,7 @@ const articleRouter = createTRPCRouter({
             input.theme === "Ver Tudo"
               ? undefined
               : { some: { name: input.theme } },
-          title: { contains: `%${input.search?.trim()}%` },
+          title: { contains: `%${input.search?.trim()}%`, mode: "insensitive" },
         },
         orderBy: {
           createdAt: createdAtOrder,
@@ -59,6 +59,18 @@ const articleRouter = createTRPCRouter({
 
       return articles;
     }),
+
+  getArticlesForCarousel: publicProcedure.query(async ({ ctx }) => {
+    const articles = await ctx.db.article.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: { createdBy: true, themes: true },
+      take: 6,
+    });
+
+    return articles;
+  }),
 
   getOneBySlug: publicProcedure
     .input(z.object({ slug: z.string() }))
@@ -74,6 +86,7 @@ const articleRouter = createTRPCRouter({
             imageSrc: true,
             createdBy: true,
             createdAt: true,
+            themes: { select: { name: true } },
           },
         });
 
@@ -167,7 +180,7 @@ const articleRouter = createTRPCRouter({
         description: z.string().min(1).optional(),
         content: z.custom<PartialBlock[]>(),
         themes: z.array(z.object({ name: z.string().min(1) })).optional(),
-        imagesrc: z.string().min(1).optional(),
+        imageSrc: z.string().min(1).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -186,7 +199,7 @@ const articleRouter = createTRPCRouter({
             slug,
             description: input.description,
             content: input.content,
-            imageSrc: input.imagesrc,
+            imageSrc: input.imageSrc,
             themes: { connect: input.themes },
           },
         });
@@ -308,6 +321,7 @@ type ArticleGetOneBySlug = {
   description: string | null;
   imageSrc: string | null;
   id: number;
+  themes: { name: string }[];
   createdAt: Date;
   createdBy: {
     id: string;

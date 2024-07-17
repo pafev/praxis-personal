@@ -3,18 +3,16 @@ import { ButtonLogin } from "./_components/buttonLogin";
 export default async function Login() {
   return (
     <main className="flex h-screen items-center justify-center justify-items-center p-4 ">
-      <section className="flex h-[515PX] max-h-full w-[720px]  max-w-full flex-col items-center justify-evenly rounded-3xl   border-vermelho-praxis border-opacity-60 md:border-2 md:border-b-4 md:border-r-4 md:shadow-2xl xl:border-2 xl:border-b-4 xl:border-r-4 xl:shadow-2xl">
+      <section className="flex h-fit max-h-full w-[720px] max-w-full  flex-col items-center justify-evenly rounded-3xl border-2 border-vermelho-gentileza py-28 md:shadow-2xl xl:shadow-2xl">
+        <Image
+          src="/Praxis - Logo - Completa - Colorida.png"
+          width={300}
+          height={126}
+          alt="Logo"
+          className="mb-12"
+        />
         <div>
-          <Image
-            src="/Praxis - Logo - Completa - Colorida.png"
-            width={300}
-            height={126}
-            alt="Logo"
-          />
-        </div>
-        <div>
-          <h1 className="text-center text-4xl">Bem vindo de Volta!</h1>
-          <h2 className="text-center text-lg">Entre com o Google</h2>
+          <h1 className="mb-8 text-center text-4xl">Bem vindo de Volta!</h1>
         </div>
         <ButtonLogin />
       </section>

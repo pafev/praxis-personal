@@ -3,12 +3,19 @@ import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import { Button, buttonVariants } from "~/components/ui/button";
 import Image from "next/image";
-import { useMyBlockNoteEditor } from "~/hooks/useMyBlockNoteEditor";
-import { ArticleContentEditor } from "~/components/articleContentEditor";
 import { useFormUpdateArticle } from "~/hooks/useFormUpdateArticle";
 import { ImageUp } from "lucide-react";
 import { useDisabePgKey } from "~/hooks/useDisablePgKey";
 import { urlDefaultImg } from "~/lib/defaultImg";
+import { useMemo } from "react";
+import dynamic from "next/dynamic";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 export default function FormEditArticle({
   initialData,
@@ -20,8 +27,17 @@ export default function FormEditArticle({
     content: object[];
     imageSrc?: string;
     createdByImageSrc: string;
+    themes: { name: string }[];
   };
 }) {
+  const ArticleContentEditor = useMemo(
+    () =>
+      dynamic(() => import("~/components/articleContentEditor"), {
+        ssr: false,
+      }),
+    [],
+  );
+
   const { id: articleId, createdByImageSrc, ...initialFormData } = initialData;
 
   const router = useRouter();
@@ -35,16 +51,16 @@ export default function FormEditArticle({
     },
   });
 
-  const editor = useMyBlockNoteEditor(initialFormData.content);
+  const { data: themes, isLoading } = api.theme.getAll.useQuery();
 
   const {
     formData,
-    handleChangeContent,
+    setFormData,
     handleChangeImageSrc,
     handleChangeInputText,
+    handleChangeTheme,
     handleSubmit,
   } = useFormUpdateArticle({
-    editor,
     updateFn: mutate,
     articleId,
     initialFormData,
@@ -108,11 +124,36 @@ export default function FormEditArticle({
           className="mx-8 w-[88%] border-none outline-none lg:mx-36"
           value={formData.description}
         />
+        <Select
+          onValueChange={handleChangeTheme}
+          defaultValue={initialFormData.themes[0]?.name}
+        >
+          <SelectTrigger
+            disabled={isLoading}
+            className="mx-8 mt-4 max-w-40 border-vermelho-praxis bg-white px-4 text-left text-vermelho-praxis ring-vermelho-praxis hover:shadow-md lg:mx-36"
+          >
+            <SelectValue placeholder="Tema" />
+          </SelectTrigger>
+          <SelectContent className="border-vermelho-praxis bg-white text-vermelho-praxis">
+            {themes?.map((theme) => (
+              <SelectItem
+                key={theme.id}
+                value={theme.name}
+                className="pr-7 focus:text-vermelho-praxis"
+              >
+                {theme.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
-      <ArticleContentEditor editor={editor} onChange={handleChangeContent} />
+      <ArticleContentEditor
+        setFormData={setFormData}
+        initialContent={initialFormData.content}
+      />
       <Button
         disabled={isPending}
-        className="mx-8 mt-20 rounded-sm border-2 border-vermelho-praxis bg-white text-vermelho-praxis shadow-md transition-all ease-in-out hover:border-vermelho-praxis hover:bg-white hover:text-vermelho-praxis hover:shadow-lg lg:mx-36"
+        className="mx-8 mt-20 rounded-sm border-[1px] border-vermelho-praxis bg-white text-vermelho-praxis shadow-md transition-all ease-in-out hover:border-vermelho-praxis hover:bg-white hover:text-vermelho-praxis hover:shadow-lg lg:mx-36"
       >
         Finalizar Edição
       </Button>

@@ -8,6 +8,7 @@ export function ArticleCard({ article }: { article: ArticleGetAllPerPage }) {
   return (
     <Link
       href={"/blog/" + article.slug}
+      prefetch={false}
       className="mx-auto flex h-[420px] w-[240px] flex-col rounded-md border-[1px] border-off-black/15 shadow outline-none transition-all ease-out hover:shadow-lg sm:h-[480px] sm:w-[380px]"
     >
       <Image

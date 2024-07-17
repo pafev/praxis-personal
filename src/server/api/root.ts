@@ -7,6 +7,7 @@ import {
   portfolioRouter,
   praxisRouter,
 } from "./routers";
+import { UserRouter } from "./routers/users";
 
 /**
  * This is the primary router for your server.
@@ -20,6 +21,7 @@ export const appRouter = createTRPCRouter({
   partners: partnerRouter,
   portfolio: portfolioRouter,
   praxis: praxisRouter,
+  user: UserRouter,
 });
 
 // export type definition of API

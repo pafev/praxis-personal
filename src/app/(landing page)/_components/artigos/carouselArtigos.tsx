@@ -9,12 +9,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { api } from "~/trpc/react";
 
 export function CarouselArtigos() {
-  const { data: articles } = api.article.getAllPerPage.useQuery({
-    page: 1,
-    theme: "Ver Tudo",
-  });
-
-  console.log(articles);
+  const { data: articles } = api.article.getArticlesForCarousel.useQuery();
 
   return (
     <Carousel

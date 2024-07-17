@@ -7,23 +7,52 @@ import {
   FormItem,
   FormMessage,
 } from "~/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import { Button } from "~/components/ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { Checkbox } from "~/components/ui/checkbox";
+
+import { cn } from "~/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "~/components/ui/command";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+
 import { api } from "~/trpc/react";
 import { Textarea } from "~/components/ui/textarea";
 
+interface Servicos {
+  value: string;
+  label: string;
+}
+
 export function FormsContato() {
+  const [open, setOpen] = useState(false);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [checked, setChecked] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setChecked(!checked);
+  };
+
   const { data: portfolios } = api.portfolio.getAll.useQuery();
+
+  const servicos: Servicos[] = (portfolios ?? []).map((servico) => {
+    return { value: servico.name, label: servico.name };
+  });
 
   const formSchema = z.object({
     empresa: z
@@ -44,6 +73,7 @@ export function FormsContato() {
       .max(50, { message: "Email deve conter menos que 50 caracteres" })
       .email({ message: "Email inserido é inválido" }),
     servico: z.string(),
+    outros: z.string().optional(),
     mensagem: z
       .string()
       .min(2, { message: "Mensagem deve conter pelo menos 2 caracteres" }),
@@ -56,6 +86,7 @@ export function FormsContato() {
       nome: "",
       email: "",
       servico: "",
+      outros: "",
       mensagem: "",
     },
   });
@@ -65,13 +96,17 @@ export function FormsContato() {
     nome: string;
     email: string;
     servico: string;
+    outros?: string;
     mensagem: string;
   }) => {
     const body = {
       service_id: process.env.NEXT_PUBLIC_MAIL_SERVICE_ID,
       template_id: process.env.NEXT_PUBLIC_MAIL_TEMPLATE_ID,
       user_id: process.env.NEXT_PUBLIC_MAIL_USER_ID,
-      template_params: data,
+      template_params: {
+        ...data,
+        servico: `${data.servico}${data.servico.length && data.outros?.length ? ", " : ""}${data.outros}`,
+      },
     };
     await fetch("https://api.emailjs.com/api/v1.0/email/send", {
       method: "POST",
@@ -80,12 +115,23 @@ export function FormsContato() {
         "Content-Type": "application/json",
       },
     });
+    console.log(data);
+  };
+
+  const toggleService = (value: string) => {
+    setSelectedValues((prev) => {
+      const newValues = prev.includes(value)
+        ? prev.filter((val) => val !== value)
+        : [...prev, value];
+      form.setValue("servico", newValues.join(", "));
+      return newValues;
+    });
   };
 
   return (
     <div
       className="flex w-screen bg-gradient-to-r from-vermelho-praxis-translucido to-vermelho-praxis pb-32 pt-16"
-      id="contato"
+      id="Contato"
     >
       <div className="mx-8 w-full text-white md:mr-0 md:w-[403px] lg:ml-36">
         <Form {...form}>
@@ -142,29 +188,84 @@ export function FormsContato() {
               <FormField
                 control={form.control}
                 name="servico"
-                render={({ field }) => (
-                  <FormItem className="relative flex flex-col ">
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl className="h-11 rounded-none border-b-2 border-transparent border-b-off-white/85 bg-transparent  transition-all ease-linear focus:border-b-white">
-                        <SelectTrigger className="p-0 font-noto ring-0 ring-offset-0 focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 md:text-lg">
-                          <SelectValue placeholder="Serviço" className="" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="cursor-pointer border-0 bg-vermelho-praxis/80 text-white backdrop-blur">
-                        {portfolios?.map((portfolio) => (
-                          <SelectItem
-                            key={portfolio.id}
-                            value={portfolio.name}
-                            className="cursor-pointer"
+                render={() => (
+                  <FormItem className="relative flex flex-col">
+                    <Popover open={open} onOpenChange={setOpen}>
+                      <FormControl className="h-11 rounded-none border-transparent bg-transparent transition-all ease-linear focus:border-b-white">
+                        <PopoverTrigger asChild>
+                          <Button
+                            aria-expanded={open}
+                            className="justify-between p-0 font-noto ring-0 ring-offset-0 hover:bg-transparent focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 md:text-lg"
                           >
-                            {portfolio.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                            <div className="overflow-y-auto">
+                              {selectedValues.length
+                                ? selectedValues
+                                    .map(
+                                      (value) =>
+                                        servicos.find(
+                                          (servico) => servico.value === value,
+                                        )?.label,
+                                    )
+                                    .join(", ")
+                                : "Serviços"}
+                            </div>
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                      </FormControl>
+                      <PopoverContent className="border-2 border-vermelho-excelencia p-0">
+                        <Command className="bg-white font-noto font-medium text-off-black backdrop-blur">
+                          <CommandInput />
+                          <CommandEmpty className="border-none pb-2 text-center">
+                            Serviço não encontrado
+                          </CommandEmpty>
+                          <CommandGroup className="border-t-2 border-vermelho-excelencia  text-off-black">
+                            {servicos.map((servico) => (
+                              <CommandItem
+                                key={servico.value}
+                                value={servico.value}
+                                onSelect={() => toggleService(servico.value)}
+                                className="ring-off-black hover:ring"
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    selectedValues.includes(servico.value)
+                                      ? "opacity-100"
+                                      : "opacity-0",
+                                  )}
+                                />
+                                {servico.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage className="text-off-white" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="outros"
+                render={({ field }) => (
+                  <FormItem className="relative flex flex-col">
+                    <FormControl className="flex h-11 items-center border-2 border-transparent border-b-white bg-transparent">
+                      <span>
+                        <Checkbox
+                          checked={checked}
+                          onCheckedChange={handleCheckboxChange}
+                          className="mr-2 h-5 w-5 rounded-md border-white data-[state=checked]:bg-white data-[state=checked]:text-vermelho-excelencia"
+                        />
+                        <input
+                          disabled={!checked}
+                          placeholder="Clique para adicionar outro serviço"
+                          {...field}
+                          className="cor-branca w-full bg-transparent font-noto text-lg text-off-white focus:outline-none"
+                        />
+                      </span>
+                    </FormControl>
                     <FormMessage className="text-off-white" />
                   </FormItem>
                 )}

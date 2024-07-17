@@ -1,24 +1,12 @@
-import type {
-  BlockConfig,
-  BlockNoteEditor,
-  InlineContentSchema,
-  StyleSchema,
-} from "@blocknote/core";
 import type { UseMutateFunction } from "@tanstack/react-query";
 import { useState } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import { uploadUrl } from "~/lib/cloudinaryUpload";
 
 export function useFormCreateArticle({
-  editor,
   createdById,
   createFn,
 }: {
-  editor: BlockNoteEditor<
-    Record<string, BlockConfig>,
-    InlineContentSchema,
-    StyleSchema
-  >;
   createdById?: string;
   createFn: UseMutateFunction<
     unknown,
@@ -33,15 +21,10 @@ export function useFormCreateArticle({
     description: "",
     content: [{}],
     imageSrc: "",
+    themes: [{ name: "" }],
   });
   function handleChangeInputText(ev: React.ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, [ev.target.name]: ev.target.value });
-  }
-  function handleChangeContent() {
-    setFormData((prevData) => ({
-      ...prevData,
-      content: editor.document,
-    }));
   }
   function handleChangeImageSrc(ev: React.ChangeEvent<HTMLInputElement>) {
     if (ev.target.files) {
@@ -53,6 +36,9 @@ export function useFormCreateArticle({
         reader.readAsDataURL(file);
       }
     }
+  }
+  function handleChangeTheme(value: string) {
+    setFormData({ ...formData, themes: [{ name: value }] });
   }
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -67,14 +53,21 @@ export function useFormCreateArticle({
           content: formData.content,
           title: formData.title,
           description: formData.description,
-          imageSrc: uploadedImage.url,
+          imageSrc: uploadedImage.secure_url,
+          themes: formData.themes,
           createdById,
+        });
+        toast({
+          title: "Sucesso!!",
+          description:
+            "Artigo foi criado com sucesso!! Agora é possível vê-lo no blog",
         });
       } catch (error) {
         toast({
           title: "Ops! Não Foi Possível Criar o Artigo",
           description:
             "Por Favor! Verifique se Preencheu os Campos Necessários Corretamente ou se Já Não Existe um Artigo com esse Título",
+          variant: "destructive",
         });
       }
     }
@@ -82,9 +75,10 @@ export function useFormCreateArticle({
 
   return {
     handleChangeInputText,
-    handleChangeContent,
     handleChangeImageSrc,
+    handleChangeTheme,
     handleSubmit,
     formData,
+    setFormData,
   };
 }

@@ -26,29 +26,36 @@ import { Input } from "~/components/ui/input";
 import { api } from "~/trpc/react";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Label } from "~/components/ui/label";
+import { Textarea } from "~/components/ui/textarea";
 
 export default function ModalEditar({ id }: { id: number }) {
   const formSchema = z.object({
-    imagem: z.string(),
-    descricao: z.string(),
-    nome: z.string(),
+    image: z.string(),
+    description: z.string(),
+    name: z.string(),
   });
 
   const router = useRouter();
+  const [response, setResponse] = useState("");
 
-  const { mutateAsync } = api.portfolio.updateUnique.useMutation();
+  const updatePortfolio = api.portfolio.updateUnique.useMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { nome: "", imagem: "", descricao: "" },
+    defaultValues: { name: "", image: "", description: "" },
   });
 
-  const onSubmit = (dados: z.infer<typeof formSchema>) => {
-    mutateAsync({ id, ...dados })
+  const onSubmit = async (dados: z.infer<typeof formSchema>) => {
+    setResponse("");
+    await updatePortfolio
+      .mutateAsync({ id, ...dados })
       .then(() => {
         router.refresh();
+        setResponse("Alteração feita com sucesso!");
       })
-      .catch(console.log);
+      .catch(() => setResponse("Ocorreu um erro ao editar o portfólio!"));
   };
 
   return (
@@ -64,16 +71,16 @@ export default function ModalEditar({ id }: { id: number }) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Editar um parceiro</DialogTitle>
+          <DialogTitle>Editar o portfólio</DialogTitle>
           <DialogDescription>
-            Formulário utilizado para editar um existente parceiro.
+            Formulário utilizado para editar o portfólio.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="nome"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
@@ -87,7 +94,7 @@ export default function ModalEditar({ id }: { id: number }) {
             />
             <FormField
               control={form.control}
-              name="imagem"
+              name="image"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Imagem</FormLabel>
@@ -101,12 +108,12 @@ export default function ModalEditar({ id }: { id: number }) {
             />
             <FormField
               control={form.control}
-              name="descricao"
+              name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Descricao</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Textarea {...field} />
                   </FormControl>
                   <FormDescription />
                   <FormMessage />
@@ -114,10 +121,13 @@ export default function ModalEditar({ id }: { id: number }) {
               )}
             />
             <div className="flex justify-end">
-              <Button>Editar parceiro</Button>
+              <Button>Editar portfólio</Button>
             </div>
           </form>
         </Form>
+        <Label className="w-full text-center font-semibold text-vermelho-excelencia">
+          {response}
+        </Label>
       </DialogContent>
     </Dialog>
   );

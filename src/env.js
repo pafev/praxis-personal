@@ -24,7 +24,6 @@ export const env = createEnv({
     ),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
-    CLOUDINARY_API_KEY: z.string(),
     CLOUDINARY_API_SECRET: z.string(),
   },
 
@@ -35,6 +34,7 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_CLOUDINARY_API_KEY: z.string(),
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string(),
     NEXT_PUBLIC_MAIL_SERVICE_ID: z.string(),
     NEXT_PUBLIC_MAIL_TEMPLATE_ID: z.string(),
@@ -54,7 +54,7 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
       process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    NEXT_PUBLIC_CLOUDINARY_API_KEY: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
     NEXT_PUBLIC_MAIL_SERVICE_ID: process.env.NEXT_PUBLIC_MAIL_SERVICE_ID,
     NEXT_PUBLIC_MAIL_TEMPLATE_ID: process.env.NEXT_PUBLIC_MAIL_TEMPLATE_ID,

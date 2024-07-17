@@ -25,8 +25,8 @@ export function InfiniteScrollArticles({
         ))}
       </div>
       {!!isLoading && (
-        <div ref={ref} className="flex items-center justify-center">
-          <SpinnerLoading />
+        <div ref={ref} className="relative flex items-center justify-center">
+          <SpinnerLoading className="absolute mt-20" />
         </div>
       )}
     </section>

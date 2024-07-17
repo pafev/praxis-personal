@@ -22,6 +22,7 @@ export default async function EditArticlePage({
     content: article.content,
     imageSrc: article.imageSrc ?? undefined,
     createdByImageSrc: article.createdBy.image,
+    themes: article.themes,
   };
 
   return (

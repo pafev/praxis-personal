@@ -3,7 +3,7 @@ import { buttonVariants } from "~/components/ui/button";
 
 export default function QuemSomos() {
   return (
-    <div className="mx-8 my-20 flex flex-col lg:mx-36 lg:my-36">
+    <div id="QuemSomos" className="mx-8 my-20 flex flex-col lg:mx-36 lg:my-36">
       <div className="flex items-center justify-between">
         <p className="font-lora text-2xl md:max-w-3xl md:text-5xl">
           Descubra seu Potencial com Nossa Orientação Especializada

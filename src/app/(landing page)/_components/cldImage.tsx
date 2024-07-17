@@ -26,16 +26,19 @@ export function CloudImage({ ...props }: CldImageProps) {
   return <CldImage {...props} dpr={"auto"} />;
 }
 
+type uploadWidget = {
+  minimize: () => null;
+};
+
 export function CloudUpload({ ...props }: CldUploadWidgetProps) {
   const [url, setUrl] = useState("");
   return (
     <CldUploadWidget
       {...props}
-      signatureEndpoint="/api/cloudinary"
-      onSuccess={(result, { widget }) => {
+      signatureEndpoint="/api/cloudinary/widget"
+      onSuccess={(result, { widget }: { widget: uploadWidget }) => {
         const info = result.info as CloudinaryUploadWidgetInfo;
         setUrl(info.secure_url);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
         widget.minimize();
       }}
     >

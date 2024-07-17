@@ -26,6 +26,8 @@ import { Input } from "~/components/ui/input";
 import { api } from "~/trpc/react";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Label } from "~/components/ui/label";
+import { useState } from "react";
 
 export default function ModalEditar({
   id,
@@ -37,28 +39,33 @@ export default function ModalEditar({
   const { mutateAsync } = api.partners.updateUnique.useMutation();
 
   const formSchema = z.object({
-    imagem: z.string(),
+    image: z.string(),
     link: z.string(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { imagem: "", link: "" },
+    defaultValues: { image: "", link: "" },
   });
 
   const router = useRouter();
+  const [response, setResponse] = useState("");
 
   const onSubmit = (dados: z.infer<typeof formSchema>) => {
+    setResponse("");
     mutateAsync({ id, ...dados })
-      .then(() => router.refresh())
-      .catch(console.log);
+      .then(() => {
+        router.refresh();
+        setResponse("Alteração realizada com sucesso!");
+      })
+      .catch(() => setResponse("Ocorreu um erro ao editar o parceiro!"));
   };
 
   return (
     <div className={className}>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="bg-off-white hover:bg-off-white">
+          <Button className="bg-transparent transition ease-linear hover:-translate-y-1 hover:bg-transparent">
             <Pencil size={36} color="green" />
           </Button>
         </DialogTrigger>
@@ -73,7 +80,7 @@ export default function ModalEditar({
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
-                name="imagem"
+                name="image"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Imagem*</FormLabel>
@@ -104,6 +111,9 @@ export default function ModalEditar({
               </div>
             </form>
           </Form>
+          <Label className="w-full text-center font-semibold text-vermelho-excelencia">
+            {response}
+          </Label>
         </DialogContent>
       </Dialog>
     </div>

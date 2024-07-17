@@ -1,9 +1,3 @@
-import type {
-  BlockConfig,
-  BlockNoteEditor,
-  InlineContentSchema,
-  StyleSchema,
-} from "@blocknote/core";
 import type { UseMutateFunction } from "@tanstack/react-query";
 import { useState } from "react";
 import { useToast } from "~/components/ui/use-toast";
@@ -11,16 +5,10 @@ import { uploadUrl } from "~/lib/cloudinaryUpload";
 import { urlDefaultImg } from "~/lib/defaultImg";
 
 export function useFormUpdateArticle({
-  editor,
   updateFn,
   initialFormData,
   articleId,
 }: {
-  editor: BlockNoteEditor<
-    Record<string, BlockConfig>,
-    InlineContentSchema,
-    StyleSchema
-  >;
   updateFn: UseMutateFunction<
     unknown,
     unknown,
@@ -32,6 +20,7 @@ export function useFormUpdateArticle({
     description?: string;
     content: object[];
     imageSrc?: string;
+    themes: { name: string }[];
   };
   articleId: number;
 }) {
@@ -41,15 +30,10 @@ export function useFormUpdateArticle({
     description: initialFormData.description ?? "",
     content: initialFormData.content,
     imageSrc: initialFormData.imageSrc ?? urlDefaultImg,
+    themes: initialFormData.themes,
   });
   function handleChangeInputText(ev: React.ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, [ev.target.name]: ev.target.value });
-  }
-  function handleChangeContent() {
-    setFormData((prevData) => ({
-      ...prevData,
-      content: editor.document,
-    }));
   }
   function handleChangeImageSrc(ev: React.ChangeEvent<HTMLInputElement>) {
     if (ev.target.files) {
@@ -61,6 +45,9 @@ export function useFormUpdateArticle({
         reader.readAsDataURL(file);
       }
     }
+  }
+  function handleChangeTheme(value: string) {
+    setFormData({ ...formData, themes: [{ name: value }] });
   }
   async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -75,14 +62,21 @@ export function useFormUpdateArticle({
           content: formData.content,
           title: formData.title,
           description: formData.description,
-          imageSrc: uploadedImage.url,
+          themes: formData.themes,
+          imageSrc: uploadedImage.secure_url,
           id: articleId,
+        });
+        toast({
+          title: "Sucesso!!",
+          description:
+            "O artigo foi atualizado com sucesso. Agora você pode vê-lo no blog",
         });
       } catch (error) {
         toast({
           title: "Ops! Não Foi Possível Editar o Artigo",
           description:
             "Por Favor! Verifique se Preencheu os Campos Necessários Corretamente ou se Já Não Existe um Artigo com esse Título",
+          variant: "destructive",
         });
       }
     }
@@ -90,9 +84,10 @@ export function useFormUpdateArticle({
 
   return {
     handleChangeInputText,
-    handleChangeContent,
     handleChangeImageSrc,
+    handleChangeTheme,
     handleSubmit,
     formData,
+    setFormData,
   };
 }

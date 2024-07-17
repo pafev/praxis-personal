@@ -3,11 +3,11 @@
 
 generator client {
     provider        = "prisma-client-js"
-    previewFeatures = ["fullTextSearch"]
+    previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-    provider = "mysql"
+    provider = "postgres"
     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -17,7 +17,7 @@ datasource db {
 
 model Praxis {
     id        Int    @id @default(autoincrement())
-    whatsapp  String @default("https://wa.me/5561999020080")
+    whatsapp  String @default("61999020080")
     instagram String @default("https://www.instagram.com/praxisconsultoriajr")
     linkedin  String @default("https://br.linkedin.com/company/praxis-consultoria-jr")
     email     String @default("") // Colocar seu email da Struct para realizar testes
@@ -113,9 +113,3 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
-
-//enum Role {
-//    ADMIN
-//    USER
-//}
-// TODO Ver se vai alterar para enum em prod

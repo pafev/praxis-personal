@@ -25,9 +25,12 @@ import {
 import { Input } from "~/components/ui/input";
 
 import { api } from "~/trpc/react";
+import { useState } from "react";
+import { Label } from "~/components/ui/label";
 
 export default function ModalCriar() {
-  const { mutateAsync } = api.partners.createUnique.useMutation();
+  const createParceiro = api.partners.createUnique.useMutation();
+  const [response, setResponse] = useState("");
 
   const formSchema = z.object({
     image: z.string().min(1, { message: "Campo não pode ser nulo." }),
@@ -41,16 +44,23 @@ export default function ModalCriar() {
 
   const router = useRouter();
 
-  const onSubmit = (dados: z.infer<typeof formSchema>) => {
-    mutateAsync(dados)
-      .then(() => router.refresh())
-      .catch(console.log);
+  const onSubmit = async (dados: z.infer<typeof formSchema>) => {
+    setResponse("");
+    await createParceiro
+      .mutateAsync(dados)
+      .then(() => {
+        router.refresh();
+        setResponse("Parceiro criado com sucesso!");
+      })
+      .catch(() => setResponse("Ocorreu um erro ao criar o parceiro!"));
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Criar parceiro</Button>
+        <Button className="col-span-full row-start-2 mx-auto w-fit md:col-span-3 md:row-start-1">
+          Criar parceiro
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -94,6 +104,9 @@ export default function ModalCriar() {
             </div>
           </form>
         </Form>
+        <Label className="w-full text-center font-semibold text-vermelho-excelencia">
+          {response}
+        </Label>
       </DialogContent>
     </Dialog>
   );

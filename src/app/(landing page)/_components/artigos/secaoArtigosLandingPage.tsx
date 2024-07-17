@@ -1,29 +1,17 @@
 import { buttonVariants } from "~/components/ui/button";
 import Link from "next/link";
-import Image from "next/image";
 import { CarouselArtigos } from "./carouselArtigos";
+import IndicadorSecao from "../indicadorSecao/indicadorSecao";
 
 export default function SeçãoArtigosLandingPage() {
   return (
     <section className="my-20 lg:my-36">
       <div className="mx-8 lg:mx-36">
-        <div className="flex flex-row">
-          <p className="mr-4 font-lora">Nosso blog</p>
-          <div className="flex w-16 flex-row justify-between">
-            <Image
-              src="/Praxis - Grafismos - Barra - Preto.svg"
-              alt="barra"
-              width={26}
-              height={19}
-            />
-            <Image
-              src="/Praxis - Grafismos - Barra - Vermelho.svg"
-              alt="barra"
-              width={26}
-              height={19}
-            />
-          </div>
-        </div>
+        <IndicadorSecao.Root>
+          <IndicadorSecao.Nome className="mr-4">Nosso blog</IndicadorSecao.Nome>
+          <IndicadorSecao.BarraEscura className="mr-2" />
+          <IndicadorSecao.BarraVermelha />
+        </IndicadorSecao.Root>
         <div className="my-10 flex flex-col items-end justify-between md:my-20 md:flex-row">
           <p className="font-lora text-2xl md:text-5xl">
             Veja Sobre o que Estamos Falando

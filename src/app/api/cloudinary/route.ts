@@ -14,7 +14,18 @@ export async function POST(request: NextRequest) {
     const uploadedImage = await cloudinary.uploader.upload(data.url, {
       public_id: data.publicId,
       upload_preset: "unsigned_upload",
-      allowed_formats: ["jpg", "png", "jpeg", "webp", "svg", "ico", "jfif"],
+      allowed_formats: [
+        "jpg",
+        "png",
+        "jpeg",
+        "webp",
+        "svg",
+        "ico",
+        "jfif",
+        "mp4",
+        "mkv",
+      ],
+      invalidate: true,
     });
     return new NextResponse(JSON.stringify(uploadedImage));
   } catch (error) {

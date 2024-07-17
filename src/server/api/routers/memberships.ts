@@ -5,10 +5,13 @@ import {
   PrismaClientKnownRequestError,
   PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import { revalidatePath } from "next/cache";
 
 export const membershipsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const memberships = await ctx.db.membership.findMany();
+    const memberships = await ctx.db.membership.findMany({
+      orderBy: { id: "asc" },
+    });
     return memberships;
   }),
 
@@ -16,9 +19,9 @@ export const membershipsRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        name: z.string().min(1).optional(),
-        role: z.string().min(1).optional(),
-        profilePicture: z.string().url().optional(),
+        name: z.string().optional(),
+        role: z.string().optional(),
+        profilePicture: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -27,9 +30,15 @@ export const membershipsRouter = createTRPCRouter({
 
         const updatedMembership = await ctx.db.membership.update({
           where: { id },
-          data,
+          data: {
+            name: data.name?.length ? data.name : undefined,
+            role: data.role?.length ? data.role : undefined,
+            profilePicture: data.profilePicture?.length
+              ? data.profilePicture
+              : undefined,
+          },
         });
-
+        revalidatePath("/");
         return updatedMembership;
       } catch (err) {
         if (err instanceof PrismaClientKnownRequestError) {

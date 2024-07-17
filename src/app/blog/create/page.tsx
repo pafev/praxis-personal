@@ -4,14 +4,29 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button, buttonVariants } from "~/components/ui/button";
 import Image from "next/image";
-import { useMyBlockNoteEditor } from "~/hooks/useMyBlockNoteEditor";
-import { ArticleContentEditor } from "~/components/articleContentEditor";
-import { getCldImageUrl } from "next-cloudinary";
 import { useFormCreateArticle } from "~/hooks/useFormCreateArticle";
 import { ImageUp } from "lucide-react";
 import { useDisabePgKey } from "~/hooks/useDisablePgKey";
+import { urlDefaultImg } from "~/lib/defaultImg";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
 
 export default function CreateArticlePage() {
+  const ArticleContentEditor = useMemo(
+    () =>
+      dynamic(() => import("~/components/articleContentEditor"), {
+        ssr: false,
+      }),
+    [],
+  );
+
   const router = useRouter();
 
   const { mutate, isPending } = api.article.createUnique.useMutation({
@@ -23,23 +38,21 @@ export default function CreateArticlePage() {
     },
   });
 
-  const { data: session } = useSession();
+  const { data: themes, isLoading } = api.theme.getAll.useQuery();
 
-  const editor = useMyBlockNoteEditor();
+  const { data: session } = useSession();
 
   const {
     formData,
-    handleChangeContent,
+    setFormData,
     handleChangeImageSrc,
     handleChangeInputText,
+    handleChangeTheme,
     handleSubmit,
   } = useFormCreateArticle({
-    editor,
     createFn: mutate,
     createdById: session?.user.id,
   });
-
-  const urlDefaultBanner = getCldImageUrl({ src: "what-is-unsplash_axoalg" });
 
   useDisabePgKey();
 
@@ -51,7 +64,7 @@ export default function CreateArticlePage() {
       <div className="pb-16 shadow-md">
         <div className="relative flex h-40 items-end justify-between lg:h-64">
           <Image
-            src={formData.imageSrc || urlDefaultBanner}
+            src={formData.imageSrc || urlDefaultImg}
             fill
             alt="banner-artigo"
             className="absolute h-full w-screen object-cover"
@@ -97,11 +110,33 @@ export default function CreateArticlePage() {
           onChange={handleChangeInputText}
           className="mx-8 w-[88%] border-none outline-none lg:mx-36"
         />
+        <Select
+          onValueChange={handleChangeTheme}
+          defaultValue={formData.themes[0]?.name}
+        >
+          <SelectTrigger
+            disabled={isLoading}
+            className="mx-8 mt-4 max-w-40 border-vermelho-praxis bg-white px-4 text-left text-vermelho-praxis ring-vermelho-praxis hover:shadow-md lg:mx-36"
+          >
+            <SelectValue placeholder="Tema" />
+          </SelectTrigger>
+          <SelectContent className="border-vermelho-praxis bg-white text-vermelho-praxis">
+            {themes?.map((theme) => (
+              <SelectItem
+                key={theme.id}
+                value={theme.name}
+                className="pr-7 focus:text-vermelho-praxis"
+              >
+                {theme.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
-      <ArticleContentEditor editor={editor} onChange={handleChangeContent} />
+      <ArticleContentEditor setFormData={setFormData} />
       <Button
-        disabled={isPending}
-        className="mx-8 mt-20 rounded-sm border-2 border-vermelho-praxis bg-white text-vermelho-praxis shadow-md transition-all ease-in-out hover:border-vermelho-praxis hover:bg-white hover:text-vermelho-praxis hover:shadow-lg lg:mx-36"
+        disabled={isPending || isLoading}
+        className="mx-8 mt-20 rounded-sm border-[1px] border-vermelho-praxis bg-white text-vermelho-praxis shadow-md transition-all ease-in-out hover:border-vermelho-praxis hover:bg-white hover:text-vermelho-praxis hover:shadow-lg lg:mx-36"
       >
         Criar Artigo
       </Button>

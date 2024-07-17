@@ -1,18 +1,24 @@
 import React from "react";
-import { IndicadorSecao } from "./indicadorSecao/indicadorSecao";
+import { IndicadorSecao } from "../indicadorSecao/indicadorSecao";
 import { CloudImage } from "~/app/_components/cldImage";
 import { api } from "~/trpc/server";
+import { getServerAuthSession } from "~/server/auth";
+import ModalEditar from "./modalEditar";
 
 export async function Equipe() {
   const memberships = await api.memberships.getAll();
+  const session = await getServerAuthSession();
   return (
-    <section className="mx-8 my-20 space-y-24 md:mx-10 lg:mx-36 lg:my-36">
-      <IndicadorSecao.Root className="flex flex-row">
+    <section
+      id="Equipe"
+      className="mx-8 my-20 space-y-24 md:mx-10 lg:mx-36 lg:my-36"
+    >
+      <IndicadorSecao.Root>
         <IndicadorSecao.Nome className="mr-4">Equipe</IndicadorSecao.Nome>
         <IndicadorSecao.BarraEscura className="mr-2" />
         <IndicadorSecao.BarraVermelha />
       </IndicadorSecao.Root>
-      <div className="grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-3 xl:flex xl:justify-between">
+      <div className="grid grid-cols-1 place-items-center gap-12 sm:grid-cols-2 md:grid-cols-2 xl:flex xl:justify-between">
         {memberships.map((membership) => {
           return (
             <div
@@ -33,7 +39,9 @@ export async function Equipe() {
                 src={membership.profilePicture}
                 quality={100}
                 alt="Foto Funcionario"
+                className="w-full"
               />
+              {session && <ModalEditar id={membership.id} />}
             </div>
           );
         })}

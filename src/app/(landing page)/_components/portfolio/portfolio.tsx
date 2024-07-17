@@ -1,4 +1,3 @@
-import { IndicadorSecao } from "../IndicadorSecao";
 import { VerMais } from "./buttonVerMais";
 import { CloudUpload } from "../cldImage";
 import { getServerAuthSession } from "~/server/auth";
@@ -6,18 +5,28 @@ import ModalEditar from "./modalEditar";
 import { api } from "~/trpc/server";
 import { CardPrincipalPortfolio } from "./cardPrincipal";
 import { urlDefaultImg } from "~/lib/defaultImg";
+import IndicadorSecao from "../indicadorSecao/indicadorSecao";
 
 export async function Portfolio() {
-  //TODO Mudar uploadPreset para prod (cloudinary upload widget)
   const session = await getServerAuthSession();
   const cardsPortfolio = await api.portfolio.getAll();
 
   return (
-    <section className="mx-8 flex flex-col items-center justify-center space-y-8 lg:mx-36">
-      <IndicadorSecao secao="Portfólio" />
+    <section
+      id="Portfolio"
+      className="mx-8 flex flex-col items-center justify-center space-y-8 lg:mx-36"
+    >
+      <IndicadorSecao.Root className="mr-auto">
+        <IndicadorSecao.Nome className="mr-4">Portfólio</IndicadorSecao.Nome>
+        <IndicadorSecao.BarraEscura className="mr-2" />
+        <IndicadorSecao.BarraVermelha />
+      </IndicadorSecao.Root>
+      {
+        //TODO Mudar uploadPreset para prod (cloudinary upload widget)
+      }
       {session && <CloudUpload uploadPreset="TestePraxis" />}
       <div className="grid w-full grid-cols-5 gap-x-12 gap-y-12">
-        <CardPrincipalPortfolio.Root className="col-span-full w-full bg-white lg:col-span-2">
+        <CardPrincipalPortfolio.Root className="col-span-full w-full bg-vermelho-praxis lg:col-span-2">
           <CardPrincipalPortfolio.Image
             url={cardsPortfolio[0]?.image ?? urlDefaultImg}
           />
@@ -33,7 +42,7 @@ export async function Portfolio() {
             </div>
           )}
         </CardPrincipalPortfolio.Root>
-        <CardPrincipalPortfolio.Root className="col-span-full w-full bg-white lg:col-span-3">
+        <CardPrincipalPortfolio.Root className="col-span-full w-full bg-vermelho-praxis lg:col-span-3">
           <CardPrincipalPortfolio.Image
             url={cardsPortfolio[1]?.image ?? urlDefaultImg}
           />
@@ -49,7 +58,7 @@ export async function Portfolio() {
             </div>
           )}
         </CardPrincipalPortfolio.Root>
-        <CardPrincipalPortfolio.Root className="col-span-full w-full bg-white lg:col-span-3">
+        <CardPrincipalPortfolio.Root className="col-span-full w-full bg-vermelho-praxis lg:col-span-3">
           <CardPrincipalPortfolio.Image
             url={cardsPortfolio[2]?.image ?? urlDefaultImg}
           />
@@ -65,7 +74,7 @@ export async function Portfolio() {
             </div>
           )}
         </CardPrincipalPortfolio.Root>
-        <CardPrincipalPortfolio.Root className="col-span-full w-full bg-white lg:col-span-2">
+        <CardPrincipalPortfolio.Root className="col-span-full w-full bg-vermelho-praxis lg:col-span-2">
           <CardPrincipalPortfolio.Image
             url={cardsPortfolio[3]?.image ?? urlDefaultImg}
           />

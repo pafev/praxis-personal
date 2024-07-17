@@ -1,4 +1,5 @@
 import { db } from "~/server/db";
+
 import { memberships, partners, portfolio, praxis } from "./data-seed";
 
 const seed = async () => {

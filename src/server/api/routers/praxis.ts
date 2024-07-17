@@ -5,6 +5,7 @@ import {
   PrismaClientKnownRequestError,
   PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import { revalidatePath } from "next/cache";
 
 export const praxisRouter = createTRPCRouter({
   get: publicProcedure.query(async ({ ctx }) => {
@@ -23,20 +24,19 @@ export const praxisRouter = createTRPCRouter({
   update: protectedProcedure
     .input(
       z.object({
-        id: z.number(),
-        whatsapp: z.string().url().optional(),
-        instagram: z.string().url().optional(),
-        linkedin: z.string().url().optional(),
+        whatsapp: z.string().optional(),
+        instagram: z.string().optional(),
+        linkedin: z.string().optional(),
         email: z.string().email().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const { id, ...data } = input;
-        const updatedPraxis = await ctx.db.praxis.update({
-          where: { id },
+        const { ...data } = input;
+        const updatedPraxis = await ctx.db.praxis.updateMany({
           data,
         });
+        revalidatePath("/admin");
         return updatedPraxis;
       } catch (err) {
         if (err instanceof PrismaClientKnownRequestError) {

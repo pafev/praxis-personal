@@ -10,14 +10,12 @@ export function VerMais() {
   return (
     <section>
       <div className="flex justify-center">
-        {!alive && (
-          <Button
-            className="mt-2 h-12 rounded-sm border-2 border-vermelho-praxis bg-transparent font-noto text-vermelho-praxis shadow-md hover:text-off-white md:h-14 md:text-lg"
-            onClick={() => setAlive((prev) => !prev)}
-          >
-            Ver Mais
-          </Button>
-        )}
+        <Button
+          className="mt-2 h-12 rounded-sm border-2 border-vermelho-praxis bg-transparent font-noto text-vermelho-praxis shadow-md hover:text-off-white md:h-14 md:text-lg"
+          onClick={() => setAlive((prev) => !prev)}
+        >
+          {!alive ? "Ver Mais" : "Ver menos"}
+        </Button>
       </div>
 
       <AnimatePresence>
@@ -25,8 +23,9 @@ export function VerMais() {
           <motion.section
             initial={{ y: 0, opacity: 1, height: 0 }}
             animate={{ y: 40, opacity: 1, height: "max-content" }}
-            transition={{ duration: 0.35 }}
+            transition={{ duration: 0.5 }}
             exit={{ y: 0, opacity: 0, height: 0 }}
+            className="overflow-hidden"
           >
             <cardInformativo.Root>
               {dadosCardInformativo.map((dados, index) => (

@@ -2,7 +2,10 @@ import * as React from "react";
 
 import { cn } from "~/lib/utils";
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  chaveAleatoria?: string; //Linter reclama quando uma interface só extende outra sem adicionar nada e esse código é do shadcn então não quero mudar as coisas aqui
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
