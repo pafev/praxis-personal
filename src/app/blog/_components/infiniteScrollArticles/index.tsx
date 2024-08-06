@@ -1,6 +1,6 @@
 "use client";
 import { type BlogFilterParams } from "../../page";
-import type { ArticleGetAllPerPage } from "~/server/api/routers";
+import type { ArticlesGetAllPerPage } from "~/server/api/routers";
 import { useInfiniteScroll } from "~/hooks/useInfiniteScroll";
 import SpinnerLoading from "./spinnerLoading";
 import { ArticleCard } from "./articleCard";
@@ -10,7 +10,7 @@ export function InfiniteScrollArticles({
   initialContent,
 }: {
   filterParams: BlogFilterParams;
-  initialContent: ArticleGetAllPerPage[];
+  initialContent: ArticlesGetAllPerPage;
 }) {
   const { articles, isLoading, ref } = useInfiniteScroll({
     filterParams,

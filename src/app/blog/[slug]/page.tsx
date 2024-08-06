@@ -8,6 +8,7 @@ import { getServerAuthSession } from "~/server/auth";
 import { MyLinkButton } from "./_components/myLinkButton";
 import { DeleteButton } from "./_components/deleteButton";
 import { urlDefaultImg } from "~/lib/defaultImg";
+import { type PartialBlock } from "@blocknote/core";
 
 const ArticleContentView = dynamic(
   () => import("~/components/articleContentView"),
@@ -26,6 +27,8 @@ export default async function ArticlePage({
   const article = (await api.article.getOneBySlug({
     slug: params.slug,
   })) as ArticleGetOneBySlug;
+
+  const articleContentJSON = JSON.parse(article.content) as PartialBlock[];
 
   if (!article) return <span>Ops! Para que Esse Artigo Não Existe</span>;
 
@@ -78,7 +81,7 @@ export default async function ArticlePage({
           </div>
         )}
       </div>
-      <ArticleContentView content={article.content} />
+      <ArticleContentView content={articleContentJSON} />
       <MyLinkButton href="/blog" className="mx-8 mt-20 lg:mx-36">
         Voltar para o Blog
       </MyLinkButton>

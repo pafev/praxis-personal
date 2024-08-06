@@ -11,21 +11,21 @@ export const portfolio = [
     description:
       "Determinação de habilidades técnicas e comportamentais necessárias, identificação de falhas e ineficiências, definição de treinamentos e apoio em processos seletivos.",
     image:
-      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1720756012/width_800_gxnkx9.webp",
+      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1720756018/width_800_4_ucyyer.webp",
   },
   {
     name: "Treinamentos",
     description:
       "Capacitações em feedback, trabalho em equipe, comunicação, gestão de tempo, produtividade, recrutamento e onboarding, adaptados às necessidades dos colaboradores e da organização.",
     image:
-      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1720756013/width_800_1_gqzqrl.webp",
+      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1720756016/width_800_3_sbukmt.webp",
   },
   {
     name: "Descrição de Cargos",
     description:
       "Detalhamento de tarefas e objetivos, padronização de processos, otimização da gestão de pessoas, treinamentos, avaliações e recrutamento.",
     image:
-      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1720756018/width_800_4_ucyyer.webp",
+      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1720756191/width_800_7_fazwzm.webp",
   },
   {
     name: "Pesquisa de Clima Organizacional",

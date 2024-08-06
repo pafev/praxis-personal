@@ -1,10 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import type { ArticleGetAllPerPage } from "~/server/api/routers";
+import type { ArticleCarousel } from "~/server/api/routers";
 
 export default function CardArtigoLandingPage({
   article,
 }: {
-  article: ArticleGetAllPerPage;
+  article: ArticleCarousel;
 }) {
   return (
     <div className="rounded-xl border-[1px] border-off-black/15 bg-white shadow-lg">

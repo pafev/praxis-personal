@@ -50,7 +50,7 @@ export function useFormCreateArticle({
     if (createdById && formData.content) {
       try {
         createFn({
-          content: formData.content,
+          content: JSON.stringify(formData.content),
           title: formData.title,
           description: formData.description,
           imageSrc: uploadedImage.secure_url,

@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { getArticlesPerPage } from "~/actions";
 import { type BlogFilterParams } from "~/app/blog/page";
-import type { ArticleGetAllPerPage } from "~/server/api/routers";
+import type {
+  ArticleGetAllPerPage,
+  ArticlesGetAllPerPage,
+} from "~/server/api/routers";
 
 export function useInfiniteScroll({
   filterParams,
@@ -12,7 +15,7 @@ export function useInfiniteScroll({
   initialContent: ArticleGetAllPerPage[];
 }) {
   const [articles, setArticles] =
-    useState<ArticleGetAllPerPage[]>(initialContent);
+    useState<ArticlesGetAllPerPage>(initialContent);
   const [pagesLoaded, setPagesLoaded] = useState(1);
   const [ref, inView] = useInView();
   const [isLoading, setIsLoading] = useState(true);

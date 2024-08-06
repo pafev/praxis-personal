@@ -23,37 +23,37 @@ const Navbar = async () => {
         <div className="ml-10 hidden items-center gap-4 space-x-3 font-noto font-medium transition-all lg:flex">
           <Link
             href="/#QuemSomos"
-            className="border-vermelho-praxis duration-200 ease-in-out hover:text-black/70"
+            className="border-vermelho-praxis duration-200 ease-in-out hover:text-vermelho-excelencia"
           >
             Quem Somos
           </Link>
           <Link
             href="/#Portfolio"
-            className="border-vermelho-praxis duration-200 ease-in-out hover:text-black/70"
+            className="border-vermelho-praxis duration-200 ease-in-out hover:text-vermelho-excelencia"
           >
             Portfolio
           </Link>
           <Link
             href="/#Equipe"
-            className="border-vermelho-praxis duration-200 ease-in-out hover:text-black/70"
+            className="border-vermelho-praxis duration-200 ease-in-out hover:text-vermelho-excelencia"
           >
             Equipe
           </Link>
           <Link
             href="/#Parceiros"
-            className="border-vermelho-praxis duration-200 ease-in-out hover:text-black/70"
+            className="border-vermelho-praxis duration-200 ease-in-out hover:text-vermelho-excelencia"
           >
             Parceiros
           </Link>
           <Link
             href="/#Contato"
-            className="border-vermelho-praxis duration-200 ease-in-out hover:text-black/70"
+            className="border-vermelho-praxis duration-200 ease-in-out hover:text-vermelho-excelencia"
           >
             Contato
           </Link>
           <Link
             href="/blog"
-            className="border-vermelho-praxis duration-200 ease-in-out hover:text-black/70"
+            className="border-vermelho-praxis duration-200 ease-in-out hover:text-vermelho-excelencia"
           >
             Blog
           </Link>

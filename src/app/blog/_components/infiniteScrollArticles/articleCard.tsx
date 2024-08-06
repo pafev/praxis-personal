@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { conversorDataTexto } from "~/lib/conversorDataTexto";
-import { urlDefaultImg } from "~/lib/defaultImg";
+// import { urlDefaultImg } from "~/lib/defaultImg";
 import { type ArticleGetAllPerPage } from "~/server/api/routers";
 
 export function ArticleCard({ article }: { article: ArticleGetAllPerPage }) {
@@ -12,7 +12,7 @@ export function ArticleCard({ article }: { article: ArticleGetAllPerPage }) {
       className="mx-auto flex h-[420px] w-[240px] flex-col rounded-md border-[1px] border-off-black/15 shadow outline-none transition-all ease-out hover:shadow-lg sm:h-[480px] sm:w-[380px]"
     >
       <Image
-        src={article.imageSrc ?? urlDefaultImg}
+        src={article.imageSrc ?? ""} //{article.imageSrc ?? urlDefaultImg}
         alt="banner-artigo"
         height={260}
         width={380}

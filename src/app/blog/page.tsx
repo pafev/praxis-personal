@@ -5,7 +5,6 @@ import { validDate, validSearch, validTheme } from "~/lib/validateURLState";
 import { getServerAuthSession } from "~/server/auth";
 import { buttonVariants } from "~/components/ui/button";
 import Link from "next/link";
-import { unstable_noStore as noStore } from "next/cache";
 import { InfiniteScrollArticles } from "./_components/infiniteScrollArticles";
 import { getArticlesPerPage } from "~/actions";
 import { CreateThemeButtton } from "./_components/createThemeButton";
@@ -23,7 +22,6 @@ export default async function Page({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }) {
-  noStore();
   const themes = await api.theme.getAll();
 
   const params = {

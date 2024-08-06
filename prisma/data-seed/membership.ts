@@ -1,26 +1,26 @@
 export const memberships = [
   {
-    name: "Marina",
+    name: "Geovana",
     role: "Projetos",
     profilePicture:
-      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1720756390/membership4_p9nrue.png",
+      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1722888377/diretoria-comercial-nobg_j4xfvi.png",
   },
   {
-    name: "Henrique",
+    name: "Catharina",
     role: "Comercial",
     profilePicture:
-      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1720756387/membership3_witmsa.png",
+      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1722888377/diretoria-projetos-nobg_x6yqbx.png",
   },
   {
-    name: "Nicole",
+    name: "Júlia",
     role: "Presidência",
     profilePicture:
-      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1720756382/membership_uyyc23.png",
+      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1722888377/presidente-nobg_hdcbzv.png",
   },
   {
-    name: "Lucas",
+    name: "Fernando",
     role: "G&G",
     profilePicture:
-      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1720756384/membership2_lbtx01.png",
+      "https://res.cloudinary.com/dlwxmf47w/image/upload/v1722888377/diretor-gg-nobg_enfiuw.png",
   },
 ];

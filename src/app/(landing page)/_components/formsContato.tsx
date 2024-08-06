@@ -195,9 +195,9 @@ export function FormsContato() {
                         <PopoverTrigger asChild>
                           <Button
                             aria-expanded={open}
-                            className="justify-between p-0 font-noto ring-0 ring-offset-0 hover:bg-transparent focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 md:text-lg"
+                            className="justify-between border-b-2 border-b-off-white/85 p-0 font-noto text-off-white ring-0 ring-offset-0 hover:bg-transparent focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 active:border-b-white md:text-lg"
                           >
-                            <div className="overflow-y-auto">
+                            <span className="overflow-y-auto overflow-x-hidden font-normal">
                               {selectedValues.length
                                 ? selectedValues
                                     .map(
@@ -208,24 +208,24 @@ export function FormsContato() {
                                     )
                                     .join(", ")
                                 : "Serviços"}
-                            </div>
+                            </span>
                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </PopoverTrigger>
                       </FormControl>
-                      <PopoverContent className="border-2 border-vermelho-excelencia p-0">
-                        <Command className="bg-white font-noto font-medium text-off-black backdrop-blur">
+                      <PopoverContent className="border-0 bg-transparent p-0 shadow">
+                        <Command className="bg-vermelho-praxis/80 font-noto font-medium text-off-white backdrop-blur">
                           <CommandInput />
                           <CommandEmpty className="border-none pb-2 text-center">
                             Serviço não encontrado
                           </CommandEmpty>
-                          <CommandGroup className="border-t-2 border-vermelho-excelencia  text-off-black">
+                          <CommandGroup className="border-t-2 border-off-white text-off-white">
                             {servicos.map((servico) => (
                               <CommandItem
                                 key={servico.value}
                                 value={servico.value}
                                 onSelect={() => toggleService(servico.value)}
-                                className="ring-off-black hover:ring"
+                                className="hover:bg-vermelho-excelencia/90"
                               >
                                 <Check
                                   className={cn(
@@ -251,18 +251,18 @@ export function FormsContato() {
                 name="outros"
                 render={({ field }) => (
                   <FormItem className="relative flex flex-col">
-                    <FormControl className="flex h-11 items-center border-2 border-transparent border-b-white bg-transparent">
+                    <FormControl className="flex h-11 items-center border-b-2 border-b-off-white/85 bg-transparent focus:border-b-white">
                       <span>
                         <Checkbox
                           checked={checked}
                           onCheckedChange={handleCheckboxChange}
-                          className="mr-2 h-5 w-5 rounded-md border-white data-[state=checked]:bg-white data-[state=checked]:text-vermelho-excelencia"
+                          className="mr-2 h-5 w-5 rounded-md border-2 border-white data-[state=checked]:bg-white data-[state=checked]:text-vermelho-excelencia"
                         />
                         <input
                           disabled={!checked}
                           placeholder="Clique para adicionar outro serviço"
                           {...field}
-                          className="cor-branca w-full bg-transparent font-noto text-lg text-off-white focus:outline-none"
+                          className="cor-branca w-full bg-transparent font-noto font-normal text-off-white focus:outline-none md:text-lg"
                         />
                       </span>
                     </FormControl>
@@ -275,7 +275,7 @@ export function FormsContato() {
                 name="mensagem"
                 render={({ field }) => (
                   <FormItem className="relative flex flex-col">
-                    <FormControl className="h-11 border-2 border-transparent border-b-off-white/85 bg-transparent transition-all ease-linear focus:border-b-white">
+                    <FormControl className="h-11 border-2 border-transparent border-b-off-white/85 bg-transparent transition-colors ease-linear focus:border-b-white">
                       <Textarea
                         placeholder="Mensagem adicional"
                         {...field}

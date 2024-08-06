@@ -15,7 +15,7 @@ function NavButton({ session }: { session: Session | null }) {
   return (
     <button
       onClick={() => handleClick()}
-      className="font-noto font-medium transition-all duration-200 ease-in-out hover:text-black/70"
+      className="font-noto font-medium transition-all duration-200 ease-in-out hover:text-vermelho-excelencia"
     >
       {text}
     </button>

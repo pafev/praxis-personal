@@ -43,20 +43,20 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
-  cookies: {
-    sessionToken: {
-      name:
-        env.NODE_ENV === "production"
-          ? "__Secure-next-auth.session-token"
-          : "next-auth.session-token",
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: true,
-      },
-    },
-  },
+  // cookies: {
+  //   sessionToken: {
+  //     name:
+  //       env.NODE_ENV === "production"
+  //         ? "__Secure-next-auth.session-token"
+  //         : "next-auth.session-token",
+  //     options: {
+  //       httpOnly: true,
+  //       sameSite: "lax",
+  //       path: "/",
+  //       secure: true,
+  //     },
+  //   },
+  // },
   callbacks: {
     session: ({ session, user }) => ({
       ...session,

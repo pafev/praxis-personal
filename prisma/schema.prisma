@@ -30,7 +30,7 @@ model Article {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     imageSrc    String?
-    content     Json
+    content     String   @db.Text
     themes      Theme[]
     slug        String   @unique
 

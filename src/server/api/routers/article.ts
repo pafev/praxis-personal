@@ -1,10 +1,10 @@
-import { type PartialBlock } from "@blocknote/core";
-import { type Article } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
 import {
   PrismaClientKnownRequestError,
   PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
 import { TRPCError } from "@trpc/server";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
 import {
@@ -52,7 +52,16 @@ const articleRouter = createTRPCRouter({
         orderBy: {
           createdAt: createdAtOrder,
         },
-        include: { createdBy: true, themes: true },
+        select: {
+          createdBy: { select: { name: true, image: true } },
+          themes: true,
+          id: true,
+          slug: true,
+          imageSrc: true,
+          createdAt: true,
+          title: true,
+          description: true,
+        },
         skip: 6 * (input.page - 1),
         take: 6,
       });
@@ -65,7 +74,11 @@ const articleRouter = createTRPCRouter({
       orderBy: {
         createdAt: "desc",
       },
-      include: { createdBy: true, themes: true },
+      select: {
+        createdBy: { select: { image: true, name: true } },
+        id: true,
+        description: true,
+      },
       take: 6,
     });
 
@@ -113,7 +126,7 @@ const articleRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.string().min(1),
-        content: z.custom<PartialBlock[]>(),
+        content: z.string(),
         themes: z.array(z.object({ name: z.string().min(1) })).optional(),
         description: z.string().min(1).optional(),
         createdById: z.string(),
@@ -137,6 +150,7 @@ const articleRouter = createTRPCRouter({
             imageSrc: input.imageSrc,
           },
         });
+        revalidatePath("/blog");
         return createdArticle.slug;
       } catch (err) {
         if (err instanceof PrismaClientKnownRequestError) {
@@ -178,7 +192,7 @@ const articleRouter = createTRPCRouter({
         id: z.number(),
         title: z.string().min(1).optional(),
         description: z.string().min(1).optional(),
-        content: z.custom<PartialBlock[]>(),
+        content: z.string(),
         themes: z.array(z.object({ name: z.string().min(1) })).optional(),
         imageSrc: z.string().min(1).optional(),
       }),
@@ -203,7 +217,7 @@ const articleRouter = createTRPCRouter({
             themes: { connect: input.themes },
           },
         });
-
+        revalidateTag("/blog");
         return updatedPost.slug;
       } catch (err) {
         if (err instanceof PrismaClientKnownRequestError) {
@@ -258,7 +272,7 @@ const articleRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       try {
         const deletedArticle = await ctx.db.article.delete({ where: input });
-
+        revalidatePath("/");
         return !!deletedArticle;
       } catch (err) {
         if (err instanceof PrismaClientKnownRequestError) {
@@ -298,44 +312,46 @@ const articleRouter = createTRPCRouter({
     }),
 });
 
-type ArticleGetAllPerPage = {
-  themes: {
-    id: number;
-    name: string;
-  }[];
-  createdBy: {
-    id: string;
-    name: string | null;
-    email: string | null;
-    emailVerified: Date | null;
-    image: string;
-    role: string;
+type ArticleGetAllPerPage = Prisma.ArticleGetPayload<{
+  select: {
+    createdBy: { select: { name: true; image: true } };
+    themes: true;
+    id: true;
+    slug: true;
+    imageSrc: true;
+    createdAt: true;
+    title: true;
+    description: true;
   };
-} & Article;
+}>;
+
+type ArticleCarousel = Prisma.ArticleGetPayload<{
+  select: {
+    createdBy: { select: { image: true; name: true } };
+    id: true;
+    description: true;
+  };
+}>;
 
 type ArticlesGetAllPerPage = ArticleGetAllPerPage[];
 
-type ArticleGetOneBySlug = {
-  title: string;
-  content: PartialBlock[];
-  description: string | null;
-  imageSrc: string | null;
-  id: number;
-  themes: { name: string }[];
-  createdAt: Date;
-  createdBy: {
-    id: string;
-    name: string | null;
-    email: string | null;
-    emailVerified: Date | null;
-    image: string;
-    role: string;
+type ArticleGetOneBySlug = Prisma.ArticleGetPayload<{
+  select: {
+    id: true;
+    content: true;
+    title: true;
+    description: true;
+    imageSrc: true;
+    createdBy: true;
+    createdAt: true;
+    themes: { select: { name: true } };
   };
-} | null;
+}>;
 
 export {
   articleRouter,
   type ArticleGetAllPerPage,
   type ArticlesGetAllPerPage,
   type ArticleGetOneBySlug,
+  type ArticleCarousel,
 };

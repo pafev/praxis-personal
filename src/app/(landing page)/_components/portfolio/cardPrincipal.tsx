@@ -19,7 +19,7 @@ export function cardPrincipalPortfolioRoot({
   return (
     <div
       className={cn(
-        "relative z-10 min-h-72 text-wrap py-2 shadow-md shadow-off-black/30 grayscale transition-all duration-200 ease-linear hover:-translate-y-1 hover:shadow-lg hover:shadow-off-black/30 hover:grayscale-0",
+        "relative z-10 min-h-72 text-wrap py-2 shadow-md shadow-off-black/30 grayscale transition-all duration-150 ease-linear hover:shadow-lg hover:shadow-off-black/30 hover:grayscale-0",
         className,
       )}
     >

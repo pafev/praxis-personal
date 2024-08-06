@@ -23,7 +23,7 @@ export async function Equipe() {
           return (
             <div
               key={membership.id}
-              className="flex h-72 w-56 flex-col flex-wrap justify-between bg-gradient-to-b from-vermelho-praxis-translucido to-vermelho-praxis shadow-lg shadow-off-black/25 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl"
+              className="relative flex h-72 w-56 flex-col overflow-hidden bg-gradient-to-b from-vermelho-praxis-translucido to-vermelho-praxis shadow-lg shadow-off-black/25 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl"
             >
               <div className="px-4 pt-4 text-off-white md:text-lg ">
                 <h1 className="line-clamp-1 font-noto font-semibold">
@@ -34,12 +34,12 @@ export async function Equipe() {
                 </h2>
               </div>
               <CloudImage
-                width="208"
+                width="200"
                 height="100"
                 src={membership.profilePicture}
                 quality={100}
                 alt="Foto Funcionario"
-                className="w-full"
+                className="absolute mt-[4.4rem] h-auto w-56 self-center"
               />
               {session && <ModalEditar id={membership.id} />}
             </div>

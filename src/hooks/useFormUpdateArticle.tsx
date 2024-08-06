@@ -59,7 +59,7 @@ export function useFormUpdateArticle({
     if (formData.content) {
       try {
         updateFn({
-          content: formData.content,
+          content: JSON.stringify(formData.content),
           title: formData.title,
           description: formData.description,
           themes: formData.themes,

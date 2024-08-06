@@ -23,8 +23,8 @@ export function VerMais() {
           <motion.section
             initial={{ y: 0, opacity: 1, height: 0 }}
             animate={{ y: 40, opacity: 1, height: "max-content" }}
-            transition={{ duration: 0.5 }}
-            exit={{ y: 0, opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            exit={{ y: 0, opacity: 1, height: 0 }}
             className="overflow-hidden"
           >
             <cardInformativo.Root>
